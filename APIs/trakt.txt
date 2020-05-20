@@ -1,0 +1,797 @@
+https://trakt.docs.apiary.io/#introduction/required-headers
+
+
+Trakt API
+
+INTRODUCTION
+At Trakt, we collect lots of interesting information about what tv shows and movies everyone is watching. Part of the fun with such data is making it available for anyone to mash up and use on their own site or app. The Trakt API was made just for this purpose. It is very easy to use, you basically call a URL and get some JSON back.
+More complex API calls (such as adding a movie or show to your collection) involve sending us data. These are still easy to use, you simply POST some JSON data to a specific URL.Make sure to check out the Required Headers and Authentication sections for more info on what needs to be sent with each API call. Also check out the Terminology section insight into the features Trakt supports.Create an AppTo use the Trakt API, you'll need to create a new API app.
+Stay Connected - API discussion and bugs should be posted in the GitHub Developer Forum and watch the repository if you'd like to get notifications. Make sure to follow our API Blog and @traktapi on Twitter too.
+API URL - The API should always be accessed over SSL.https://api.trakt.tv
+
+If you would like to use our sandbox environment to not fill production with test data, use this URL over SSL. Note: Staging is a completely separate environment, so you'll need to create a new API app on staging.https://api-staging.trakt.tv
+
+Verbs - The API uses restful verbs.
+Verb	Description
+GET	Select one or more items. Success returns 200 status code.
+POST	Create a new item. Success returns 201 status code.
+PUT	Update an item. Success returns 200 status code.
+DELETE	Delete an item. Success returns 200 or 204 status code.
+
+Status Codes	The API will respond with one of the following HTTP status codes.
+Code	Description
+200	Success
+201	Success - new resource created (POST)
+204	Success - no content to return (DELETE)
+400	Bad Request - request couldn't be parsed
+401	Unauthorized - OAuth must be provided
+403	Forbidden - invalid API key or unapproved app
+404	Not Found - method exists, but no record found
+405	Method Not Found - method doesn't exist
+409	Conflict - resource already created
+412	Precondition Failed - use application/json content type
+422	Unprocessable Entity - validation errors
+429	Rate Limit Exceeded
+500	Server Error - please open a support issue
+503	Service Unavailable - server overloaded (try again in 30s)
+504	Service Unavailable - server overloaded (try again in 30s)
+520	Service Unavailable - Cloudflare error
+521	Service Unavailable - Cloudflare error
+522	Service Unavailable - Cloudflare errorRequired HeadersYou'll need to send some headers when making API calls to identify your application, set the version and set the content type to JSON.
+
+Header	Value
+Content-type *	application/json
+trakt-api-key *	Your client_id listed under your Trakt applications.
+trakt-api-version *	2All POST, PUT, and DELETE methods require a valid OAuth access_token. Some GET calls require OAuth and others will return user specific data if OAuth is sent. Methods that 🔒 require or have 🔓 optional OAuth will be indicated.Your OAuth library should take care of sending the auth headers for you, but for reference here's how the Bearer token should be sent.
+
+Header	Value
+Authorization	Bearer [access_token]PaginationSome methods are paginated. Methods with 📄 Pagination will load 1 page of 10 items by default. Methods with 📄 Pagination Optional will load all items by default. In either case, append a query string like ?page={page}&limit={limit} to the URL to influence the results.
+Parameter	Type	Default	Value
+page	integer	1	Number of page of results to be returned.
+limit	integer	10	Number of results to return per page.All paginated methods will return these HTTP headers.
+
+Header	Value
+X-Pagination-Page	Current page.
+X-Pagination-Limit	Items per page.
+X-Pagination-Page-Count	Total number of pages.
+X-Pagination-Item-Count	Total number of items.Extended InfoB
+y default, all methods will return minimal info for movies, shows, episodes, people, and users. Minimal info is typically all you need to match locally cached items and includes the title, year, and ids. However, you can request different extended levels of information by adding ?extended={level} to the URL. Send a comma separated string to get multiple types of extended info.
+Note: This returns a lot of extra data, so please only use extended parameters if you actually need them!
+
+Level	Description
+full	Complete info for an item.
+metadata	Collection only. Additional video and audio info.FiltersSome movies, shows, calendars, and search methods support additional filters and will be tagged with 🎚 Filters. Applying these filters refines the results and helps your users to more easily discover new items.
+
+Add a query string (i.e. ?years=2016&genres=action) with any filters you want to use. Some filters allow multiples which can be sent as comma delimited parameters. For example, ?genres=action,adventure would match the action OR adventure genre.
+Note: Make sure to properly URL encode the parameters including spaces and special characters.
+
+Common filters
+
+Parameter	Multiples	Example	Value
+query		batman	Search titles and descriptions.
+years		2016	4 digit year or range of years.
+genres	✓	action	Genre slugs.
+languages	✓	en	2 character language code.
+countries	✓	us	2 character country code.
+runtimes		30-90	Range in minutes.
+ratings		75-100	Range between 0 and 100.Movie filters
+Parameter	Multiples	Example	Value
+certifications	✓	pg-13	US content certification.Show filters
+Parameter	Multiples	Example	Value
+certifications	✓	tv-pg	US content certification.
+networks	✓	HBO	Network name.
+status	✓	ended	Set to returning series, in production, planned, canceled, or ended.
+
+CORSWhen creating your API app, specify the JavaScript (CORS) origins you'll be using. We use these origins to return the headers needed for CORS.DatesAll dates will be GMT and returned in the ISO 8601 format like 2014-09-01T09:10:11.000Z. Adjust accordingly in your app for the user's local timezone.Standard Media ObjectsAll methods will accept or return standard media objects for movie, show, season, episode, person items. Here are examples for all minimal objects.movie{
+    "title": "Batman Begins",
+    "year": 2005,
+    "ids": {
+        "trakt": 1,
+        "slug": "batman-begins-2005",
+        "imdb": "tt0372784",
+        "tmdb": 272
+    }
+}
+show{
+    "title": "Breaking Bad",
+    "year": 2008,
+    "ids": {
+        "trakt": 1,
+        "slug": "breaking-bad",
+        "tvdb": 81189,
+        "imdb": "tt0903747",
+        "tmdb": 1396
+    }
+}
+season{
+    "number": 0,
+    "ids": {
+        "trakt": 1,
+        "tvdb": 439371,
+        "tmdb": 3577
+    }
+}
+episode{
+    "season": 1,
+    "number": 1,
+    "title": "Pilot",
+    "ids": {
+        "trakt": 16,
+        "tvdb": 349232,
+        "imdb": "tt0959621",
+        "tmdb": 62085
+    }
+}
+person{
+    "name": "Bryan Cranston",
+    "ids": {
+        "trakt": 142,
+        "slug": "bryan-cranston",
+        "imdb": "nm0186505",
+        "tmdb": 17419
+    }
+}
+ImagesThe standard media objects for all movie, show, season, episode, and person items include an ids object. These ids map to other services like TMDB, TVDB, Fanart.tv, IMDB, and OMDB.Most of these services have free APIs you can use to grab lots of great looking images. Here’s a chart to help you find the best artwork for your app. We also wrote an article to help with this.
+Media	Type	TMDB	TVDB	Fanart.tv	OMDB
+shows	poster	✓	✓	✓	✓
+fanart	✓	✓	✓	
+banner		✓	✓	
+logo			✓	
+clearart			✓	
+thumb			✓	
+seasons	poster	✓	✓	✓	
+banner		✓	✓	
+thumb			✓	
+episodes	screenshot	✓	✓		
+movies	poster	✓		✓	✓
+fanart	✓		✓	
+banner			✓	
+logo			✓	
+clearart			✓	
+thumb			✓	
+person	headshot	✓			
+character		✓		Website Media LinksThere are several ways to construct direct links to media on the Trakt website. The website itself uses slugs so the URLs are more readable.
+Type	URL
+movie	/movies/:slug
+show	/shows/:slug
+season	/shows/:slug/seasons/:num
+episode	/shows/:slug/seasons/:num/episodes/:num
+person	/people/:slug
+comment	/comments/:id
+list	/lists/:idYou can also create links using the Trakt, IMDB, TMDB, or TVDB IDs. We recommend using the Trakt ID if possible since that will always have full coverage. If you use the search url without an id_type it will return search results if multiple items are found.
+Type	URL
+trakt	/search/trakt/:id
+/search/trakt/:id?id_type=movie
+/search/trakt/:id?id_type=show
+/search/trakt/:id?id_type=season
+/search/trakt/:id?id_type=episode
+/search/trakt/:id?id_type=person
+imdb	/search/imdb/:id
+tmdb	/search/tmdb/:id
+/search/tmdb/:id?id_type=movie
+/search/tmdb/:id?id_type=show
+/search/tmdb/:id?id_type=episode
+/search/tmdb/:id?id_type=person
+tvdb	/search/tvdb/:id
+/search/tvdb/:id?id_type=show
+/search/tvdb/:id?id_type=episodeThird Party LibrariesAll of the libraries listed below are user contributed. If you find a bug or missing feature, please contact the developer directly. These might help give your project a head start, but we can't provide direct support for any of these libraries. Please help us keep this list up to date.
+Language	Name	Repository
+C#	Trakt.NET	https://github.com/henrikfroehling/Trakt.NET
+TraktSharp	https://github.com/wwarby/TraktSharp
+C++	libtraqt	https://github.com/RobertMe/libtraqt
+Clojure	clj-trakt	https://github.com/niamu/clj-trakt
+Node.js	Trakt.tv	https://github.com/vankasteelj/trakt.tv
+TraktApi2	https://github.com/PatrickE94/traktapi2
+Python	trakt.py	https://github.com/fuzeman/trakt.py
+pyTrakt	https://github.com/moogar0880/PyTrakt
+R	tRakt	https://github.com/jemus42/tRakt
+React Native	nodeless-trakt	https://github.com/kdemoya/nodeless-trakt
+Ruby	omniauth-trakt	https://github.com/wafcio/omniauth-trakt
+omniauth-trakt	https://github.com/alextakitani/omniauth-trakt
+Swift	TraktKit	https://github.com/MaxHasADHD/TraktKit
+AKTrakt	https://github.com/arsonik/AKTraktTerminologyTrakt has a lot of features and here's a chart to help explain the differences between some of them.
+Term	Description
+scrobble	Automatic way to track what a user is watching in a media center.
+checkin	Manual action used by mobile apps allowing the user to indicate what they are watching right now.
+history	All watched items (scrobbles, checkins, watched) for a user.
+collection	Items a user has available to watch including Blu-Rays, DVDs, and digital downloads.
+watchlist	Items a user wants to watch in the future. Once watched, they are auto removed from this list.
+list	Custom list for any purpose. Items are not auto removed from any custom lists.
+REFERENCEAuthentication - OAuthThe API uses OAuth2. If you know what's up with OAuth2, grab your library and starting rolling. If you have access to a web browser (mobile app, desktop app, website), use standard OAuth. If you don't have web browser access (media center plugins, smart watches, smart TVs, command line scripts, system services), use Device authentication.To obtain a client_id and client_secret, create an application on the Trakt website. Here are some helpful links to get your started:Create a new API appView your API appsApplication FlowRedirect to request Trakt access. Using the /oauth/authorize method, construct then redirect to this URL. The Trakt website will request permissions for your app and the user will have the opportunity to sign up for a new Trakt account or sign in with their existing account.Trakt redirects back to your site. If the user accepts your request, Trakt redirects back to your site with a temporary code in a code GET parameter as well as the state (if provided) in the previous step in a state parameter. If the states don’t match, the request has been created by a third party and the process should be aborted.Exchange the code for an access token. If everything looks good in step 2, exchange the code for an access token using the /oauth/token method. Save the access_token so your app can authenticate the user by sending the Authorization header as indicated below or in any example code. The access_token is valid for 3 months. Save and use the refresh_token to get a new access_token without asking the user to re-authenticate.
+Authorize
+Authorize Application
+Construct then redirect to this URL. The Trakt website will request permissions for your app and the user will have the opportunity to sign up for a new Trakt account or sign in with their existing account.Note: You should use the normal https://trakt.tv hostname when creating this URL and not the API URL.Get Token
+Exchange code for access_token
+Use the authorization code GET parameter sent back to your redirect_uri to get an access_token. Save the access_token so your app can authenticate the user by sending the Authorization header.The access_token is valid for 3 months. Save and use the refresh_token to get a new access_token without asking the user to re-authenticate.JSON POST DATA
+Key	Type	Value
+code *	string	Authorization code.
+client_id *	string	Get this from your app settings.
+client_secret *	string	Get this from your app settings.
+redirect_uri *	string	URI specified in your app settings.
+grant_type *	string	authorization_code
+Exchange refresh_token for access_token
+Use the refresh_token to get a new access_token without asking the user to re-authenticate. The access_token is valid for 3 months before it needs to be refreshed again.JSON POST DATA
+Key	Type	Value
+refresh_token *	string	Saved from the initial token method.
+client_id *	string	Get this from your app settings.
+client_secret *	string	Get this from your app settings.
+redirect_uri *	string	URI specified in your app settings.
+grant_type *	string	refresh_tokenRevoke Token
+Revoke an access_token
+An access_token can be revoked when a user signs out of their Trakt account in your app. This is not required, but might improve the user experience so the user doesn't have an unused app connection hanging around.JSON POST DATA
+Key	Type	Value
+token *	string	A valid OAuth access_token.
+client_id *	string	Get this from your app settings.
+client_secret *	string	Get this from your app settings.
+Authentication - DevicesDevice authentication is for apps and services with limited input or display capabilities. This include media center plugins, smart watches, smart TVs, command line scripts, and system services.Your app displays an alphanumeric code (typically 8 characters) to the user. They are then instructed to visit the verification URL on their computer or mobile device. After entering the code, the user will be prompted to grant permission for your app. After your app gets permissions, the device receives an access_token and works like standard OAuth from that point on. More details below.Application FlowGenerate codes. Your app calls /oauth/device/code to generate new codes. Save this entire response for later use.Display the code. Display the user_code and instruct the user to visit the verification_url on their computer or mobile device.Poll for authorization. Poll the /oauth/device/token method to see if the user successfully authorizes your app. Use the device_code and poll at the interval (in seconds) to check if the user has authorized your app. Check the docs below for the specific error codes you need to handle. Use expires_in to stop polling after that many seconds, and gracefully instruct the user to restart the process. It is important to poll at the correct interval and also stop polling when expired.Successful authorization. When you receive a 200 success response, save the access_token so your app can authenticate the user in methods that require it. The access_token is valid for 3 months. Save and use the refresh_token to get a new access_token without asking the user to re-authenticate. It's normal OAuth from this point.User FlowCall to action. Consider your user experience when asking a user to connect their Trakt account. For some devices this will be right away, and for others it might be later in the experience.Display the code. When a user clicks the call to action, your app calls /oauth/device/code to generate new codes. In your UI, display the user_code and instruct the user to visit the verification_url on their computer or mobile device. The user_code is typically 8 characters, so make sure there is enough room to display the full code.Authorizing your app. When the user visits the verification_url it first checks to make sure they're signed in. If not signed in, they'll be able to or can sign up for a new account. After entering the code, the user will be prompted to grant permission for your app. Once approved, the user will see a success message indicating their device is connected.Confirm successful authorization. Your app will be polling to see if the user successfully authorizes your app. Once they have, refresh your UI to indicate a successful connection has been made.
+Device Code
+Generate new device codes
+Generate new codes to start the device authentication process. The device_code and interval will be used later to poll for the access_token. The user_code and verification_url should be presented to the user as mentioned in the flow steps above.JSON POST DATA
+Key	Type	Value
+client_id *	string	Get this from your app settings.Get Token
+Poll for the access_token
+Use the device_code and poll at the interval (in seconds) to check if the user has authorized you app. Use expires_in to stop polling after that many seconds, and gracefully instruct the user to restart the process. It is important to poll at the correct interval and also stop polling when expired.When you receive a 200 success response, save the access_token so your app can authenticate the user in methods that require it. The access_token is valid for 3 months. Save and use the refresh_token to get a new access_token without asking the user to re-authenticate. Check below for all the error codes that you should handle.JSON POST DATA
+Key	Type	Value
+code *	string	device_code from the initial method.
+client_id *	string	Get this from your app settings.
+client_secret *	string	Get this from your app settings.Status CodesThis method will send various HTTP status codes that you should handle accordingly.
+Code	Description
+200	Success - save the access_token
+400	Pending - waiting for the user to authorize your app
+404	Not Found - invalid device_code
+409	Already Used - user already approved this code
+410	Expired - the tokens have expired, restart the process
+418	Denied - user explicitly denied this code
+429	Slow Down - your app is polling too quickly
+CalendarsBy default, the calendar will return all shows or movies for the specified time period and can be global or user specific. The start_date defaults to today and days to 7. The maximum amount of days you can send is 31. All dates (including the start_date and first_aired) are in UTC, so it's up to your app to handle any offsets based on the user's time zone.The my calendar displays episodes for all shows that have been watched, collected, or watchlisted plus individual episodes on the watchlist. It will remove any shows that have been hidden from the calendar. The all calendar displays info for all shows airing during the specified period.
+My Shows
+Get shows
+🔒 OAuth Required ✨ Extended Info 🎚 FiltersReturns all shows airing during the time period specified.My New Shows
+Get new shows
+🔒 OAuth Required ✨ Extended Info 🎚 FiltersReturns all new show premieres (season 1, episode 1) airing during the time period specified.My Season Premieres
+Get season premieres
+🔒 OAuth Required ✨ Extended Info 🎚 FiltersReturns all show premieres (any season, episode 1) airing during the time period specified.My Movies
+Get movies
+🔒 OAuth Required ✨ Extended Info 🎚 FiltersReturns all movies with a release date during the time period specified.My DVD
+Get DVD releases
+🔒 OAuth Required ✨ Extended Info 🎚 FiltersReturns all movies with a DVD release date during the time period specified.All Shows
+Get shows
+✨ Extended Info 🎚 FiltersReturns all shows airing during the time period specified.All New Shows
+Get new shows
+✨ Extended Info 🎚 FiltersReturns all new show premieres (season 1, episode 1) airing during the time period specified.All Season Premieres
+Get season premieres
+✨ Extended Info 🎚 FiltersReturns all show premieres (any season, episode 1) airing during the time period specified.All Movies
+Get movies
+✨ Extended Info 🎚 FiltersReturns all movies with a release date during the time period specified.All DVD
+Get DVD releases
+✨ Extended Info 🎚 FiltersReturns all movies with a DVD release date during the time period specified.
+CheckinChecking in is a manual action used by mobile apps allowing the user to indicate what they are watching right now. While not as effortless as scrobbling, checkins help fill in the gaps. You might be watching live tv, at a friend's house, or watching a movie in theaters. You can simply checkin from your phone or tablet in those situations. The item will display as watching on the site, then automatically switch to watched status once the duration has elapsed.
+Checkin
+Check into an item
+🔒 OAuth RequiredCheck into a movie or episode. This should be tied to a user action to manually indicate they are watching something. The item will display as watching on the site, then automatically switch to watched status once the duration has elapsed. A unique history id (64-bit integer) will be returned and can be used to reference this checkin directly.JSON POST DATA
+Key	Type	Value
+item *	object	movie or episode object. (see examples →)
+sharing	object	Control sharing to any connected social networks. (see below ↓)
+message	string	Message used for sharing. If not sent, it will use the watching string in the user settings.
+venue_id	string	Foursquare venue ID.
+venue_name	string	Foursquare venue name.
+app_version	string	Version number of the app.
+app_date	string	Build date of the app.SHARINGThe sharing object is optional and will apply the user's settings if not sent. If sharing is sent, each key will override the user's setting for that social network. Send true to post or false to not post on the indicated social network. You can see which social networks a user has connected with the /users/settings method.
+Key	Type
+twitter	boolean
+tumblr	booleanNote: If a checkin is already in progress, a 409 HTTP status code will returned. The response will contain an expires_at timestamp which is when the user can check in again.
+Delete any active checkins
+🔒 OAuth RequiredRemoves any active checkins, no need to provide a specific item.
+Certifications
+ListMost TV shows and movies have a certification to indicate the content rating. Some API methods allow filtering by certification, so it's good to cache this list in your app.Note: Only us certifications are currently returned.
+Get certifications
+Get a list of all certifications, including names, slugs, and descriptions.
+CommentsComments are attached to any movie, show, season, episode, or list and can be a quick shout or a more detailed review. Each comment can have replies and can be liked. These likes are used to determine popular comments. Comments must follow these rules and your app should indicate these to the user. Failure to adhere to these rules could suspend the user's commenting abilities.Comments must be at least 5 words.Comments 200 words or longer will be automatically marked as a review.Correctly indicate if the comment contains spoilers.Only write comments in English - This is important!Do not include app specific text like (via App Name) or #apphashtag. This clutters up the comments and failure to clean the comment text could get your app blacklisted from commenting.Possible Error Responses
+Code	Description
+401	Invalid user
+401	User banned from commenting
+404	Item not found or doesn't allow comments
+409	Comment can't be deleted
+422	Validation errorsValidation ErrorsIf a comment doesn't pass validation, it returns a 422 HTTP error code and an array of validation errors in the response. The validation errors could include:
+Error Message
+must be at least 5 words
+must be written in EnglishComment FormattingComments support markdown formatting so you'll want to render this in your app so it matches what the website does. In addition, we support inline spoiler tags like [spoiler]text[/spoiler] which you should also handle independent of the top level spoiler attribute.😁 EmojisWe use short codes for emojis like :smiley: and :raised_hands: and render them on the Trakt website using EmojiOne. The Trakt API accepts standard unicode emojis, but we'll auto convert them to short codes before saving the comment. For the best compatibility, we recommend having your app do this conversion, just to make sure the correct emoji is used.
+Comments
+Post a comment
+🔒 OAuth Required 😁 EmojisAdd a new comment to a movie, show, season, episode, or list. Make sure to allow and encourage spoilers to be indicated in your app and follow the rules listed above.JSON POST DATA
+Key	Type	Default	Value
+item *	object		movie, show, season, episode, or list object. (see examples →)
+comment *	string		Text for the comment.
+spoiler	boolean	false	Is this a spoiler?
+sharing	object		Control sharing to any connected social networks. (see below ↓)SHARINGThe sharing object is optional and will apply the user's settings if not sent. If sharing is sent, each key will override the user's setting for that social network. Send true to post or false to not post on the indicated social network. You can see which social networks a user has connected with the /users/settings method.
+Key	Type
+twitter	boolean
+tumblr	boolean
+medium	booleanComment
+Get a comment or reply
+😁 EmojisReturns a single comment and indicates how many replies it has. Use /comments/:id/replies to get the actual replies.
+Update a comment or reply
+🔒 OAuth Required 😁 EmojisUpdate a single comment. The OAuth user must match the author of the comment in order to update it. If not, a 401 HTTP status is returned.JSON POST DATA
+Key	Type	Default	Value
+comment	string		Text for the comment.
+spoiler	boolean	false	Is this a spoiler?
+Delete a comment or reply
+🔒 OAuth RequiredDelete a single comment. The OAuth user must match the author of the comment in order to delete it. If not, a 401 HTTP status code is returned. The comment must also be less than 2 weeks old or have 0 replies. If not, a 409 HTTP status is returned.Replies
+Get replies for a comment
+📄 Pagination 😁 EmojisReturns all replies for a comment. It is possible these replies could have replies themselves, so in that case you would just call /comments/:id/replies again with the new comment id.
+Post a reply for a comment
+🔒 OAuth Required 😁 EmojisAdd a new reply to an existing comment. Make sure to allow and encourage spoilers to be indicated in your app and follow the rules listed above.JSON POST DATA
+Key	Type	Default	Value
+comment *	string		Text for the reply.
+spoiler	boolean	false	Is this a spoiler?Item
+Get the attached media item
+✨ Extended InfoReturns the media item this comment is attached to. The media type can be movie, show, season, episode, or list and it also returns the standard media object for that media type.Likes
+Get all users who liked a comment
+📄 PaginationReturns all users who liked a comment. If you only need the replies count, the main comment object already has that, so no need to use this method.Like
+Like a comment
+🔒 OAuth RequiredVotes help determine popular comments. Only one like is allowed per comment per user.
+Remove like on a comment
+🔒 OAuth RequiredRemove a like on a comment.Trending
+Get trending comments
+📄 Pagination ✨ Extended InfoReturns all comments with the most likes and replies over the last 7 days. You can optionally filter by the comment_type and media type to limit what gets returned. If you want to include_replies that will return replies in place alongside top level comments.Recent
+Get recently created comments
+📄 Pagination ✨ Extended InfoReturns the most recently written comments across all of Trakt. You can optionally filter by the comment_type and media type to limit what gets returned. If you want to include_replies that will return replies in place alongside top level comments.Updates
+Get recently updated comments
+📄 Pagination ✨ Extended InfoReturns the most recently updated comments across all of Trakt. You can optionally filter by the comment_type and media type to limit what gets returned. If you want to include_replies that will return replies in place alongside top level comments.
+Countries
+ListSome API methods allow filtering by country code, so it's good to cache this list in your app.
+Get countries
+Get a list of all countries, including names and codes.
+Genres
+ListOne or more genres are attached to all movies and shows. Some API methods allow filtering by genre, so it's good to cache this list in your app.
+Get genres
+Get a list of all genres, including names and slugs.
+Languages
+ListSome API methods allow filtering by language code, so it's good to cache this list in your app.
+Get languages
+Get a list of all langauges, including names and codes.
+Lists
+Trending
+Get trending lists
+📄 PaginationReturns all lists with the most likes and comments over the last 7 days.Popular
+Get popular lists
+📄 PaginationReturns the most popular lists. Popularity is calculated using total number of likes and comments.
+Movies
+Trending
+Get trending movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns all movies being watched right now. Movies with the most users are returned first.Popular
+Get popular movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most popular movies. Popularity is calculated using the rating percentage and the number of ratings.Played
+Get the most played movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most played (a single user can watch multiple times) movies in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Watched
+Get the most watched movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most watched (unique users) movies in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Collected
+Get the most Collected movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most collected (unique users) movies in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Anticipated
+Get the most anticipated movies
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most anticipated movies based on the number of lists a movie appears on.Box Office
+Get the weekend box office
+✨ Extended InfoReturns the top 10 grossing movies in the U.S. box office last weekend. Updated every Monday morning.Updates
+Get recently updated movies
+📄 Pagination ✨ Extended InfoReturns all movies updated since the specified UTC date. We recommended storing the date you can be efficient using this method moving forward. By default, 10 results are returned. You can send a limit to get up to 100 results per page.Summary
+Get a movie
+✨ Extended InfoReturns a single movie's details.Note: When getting full extended info, the status field can have a value of released, in production, post production, planned, rumored, or canceled.Aliases
+Get all movie aliases
+Returns all title aliases for a movie. Includes country where name is different.Releases
+Get all movie releases
+Returns all releases for a movie including country, certification, release date, release type, and note. The release type can be set to unknown, premiere, limited, theatrical, digital, physical, or tv. The note might have optional info such as the film festival name for a premiere release or Blu-ray specs for a physical release. We pull this info from TMDB.Translations
+Get all movie translations
+Returns all translations for a movie, including language and translated values for title, tagline and overview.Comments
+Get all movie comments
+📄 PaginationReturns all top level comments for a movie. By default, the newest comments are returned first. Other sorting options include oldest, most likes, most replies, highest rated, lowest rated, and most plays.Lists
+Get lists containing this movie
+📄 PaginationReturns all lists that contain this movie. By default, personal lists are returned sorted by the most popular.People
+Get all people for a movie
+✨ Extended InfoReturns all cast and crew for a movie. Each cast member will have a characters array and a standard person object.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions). Each of those members will have a jobs array and a standard person object.Ratings
+Get movie ratings
+Returns rating (between 0 and 10) and distribution for a movie.Related
+Get related movies
+📄 Pagination ✨ Extended InfoReturns related and similar movies.Stats
+Get movie stats
+Returns lots of movie stats.Watching
+Get users watching right now
+✨ Extended InfoReturns all users watching this movie right now.
+Networks
+ListMost TV shows have a TV network where it originally aired. Some API methods allow filtering by network, so it's good to cache this list in your app.
+Get networks
+Get a list of all TV networks, including the name.
+People
+Summary
+Get a single person
+✨ Extended InfoReturns a single person's details.Movies
+Get movie credits
+✨ Extended InfoReturns all movies where this person is in the cast or crew. Each cast object will have a characters array and a standard movie object.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions). Each of those members will have a jobs array and a standard movie object.Shows
+Get show credits
+✨ Extended InfoReturns all shows where this person is in the cast or crew, including the episode_count for which they appear. Each cast object will have a characters array and a standard show object. If series_regular is true, this person is a series regular and not simply a guest star.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions). Each of those members will have a jobs array and a standard show object.Lists
+Get lists containing this person
+📄 PaginationReturns all lists that contain this person. By default, personal lists are returned sorted by the most popular.
+RecommendationsRecommendations are based on the watched history for a user and their friends. There are other factors that go into the algorithm as well to further personalize what gets recommended.
+Movies
+Get movie recommendations
+🔒 OAuth Required ✨ Extended InfoPersonalized movie recommendations for a user. By default, 10 results are returned. You can send a limit to get up to 100 results per page. Set ?ignore_collected=true to filter out movies the user has already collected.Hide Movie
+Hide a movie recommendation
+🔒 OAuth RequiredHide a movie from getting recommended anymore.Shows
+Get show recommendations
+🔒 OAuth Required ✨ Extended InfoPersonalized show recommendations for a user. By default, 10 results are returned. You can send a limit to get up to 100 results per page. . Set ?ignore_collected=true to filter out shows the user has already collected.Hide Show
+Hide a show recommendation
+🔒 OAuth RequiredHide a show from getting recommended anymore.
+ScrobbleScrobbling is an automatic way to track what a user is watching in a media center. The media center should send events that correspond to starting, pausing, and stopping (or finishing) watching a movie or episode.
+Start
+Start watching in a media center
+🔒 OAuth RequiredUse this method when the video initially starts playing or is unpaused. This will remove any playback progress if it exists.Note: A watching status will auto expire after the remaining runtime has elapsed. There is no need to call this method again while continuing to watch the same item.JSON POST DATA
+Key	Type	Value
+item *	object	movie or episode object. (see examples →)
+progress *	float	Progress percentage between 0 and 100.
+app_version	string	Version number of the app.
+app_date	string	Build date of the app.Pause
+Pause watching in a media center
+🔒 OAuth RequiredUse this method when the video is paused. The playback progress will be saved and /sync/playback can be used to resume the video from this exact position. Unpause a video by calling the /scrobble/start method again.JSON POST DATA
+Key	Type	Value
+item *	object	movie or episode object. (see examples →)
+progress *	float	Progress percentage between 0 and 100.
+app_version	string	Version number of the app.
+app_date	string	Build date of the app.Stop
+Stop or finish watching in a media center
+🔒 OAuth RequiredUse this method when the video is stopped or finishes playing on its own. If the progress is above 80%, the video will be scrobbled and the action will be set to scrobble. A unique history id (64-bit integer) will be returned and can be used to reference this scrobble directly.If the progress is less than 80%, it will be treated as a pause and the action will be set to pause. The playback progress will be saved and /sync/playback can be used to resume the video from this exact position.Note: If you prefer to use a threshold higher than 80%, you should use /scrobble/pause yourself so it doesn't create duplicate scrobbles.JSON POST DATA
+Key	Type	Value
+item *	object	movie or episode object. (see examples →)
+progress *	flloat	Progress percentage between 0 and 100.
+app_version	string	Version number of the app.
+app_date	string	Build date of the app.Note: If the same item was just scrobbled, a 409 HTTP status code will returned to avoid scrobbling a duplicate. The response will contain a watched_at timestamp when the item was last scrobbled and a expires_at timestamp when the item can be scrobbled again.
+SearchSearches can use queries or ID lookups. Queries will search text fields like the title and overview. ID lookups are helpful if you have an external ID and want to get the Trakt ID and info. These methods can search for movies, shows, episodes, people, and lists.
+Text Query
+Get text query results
+📄 Pagination ✨ Extended Info 🎚 FiltersSearch all text fields that a media object contains (i.e. title, overview, etc). Results are ordered by the most relevant score. Specify the type of results by sending a single value or a comma delimited string for multiple types.Special CharactersOur search engine (Solr) gives the following characters special meaning when they appear in a query:+ - && || ! ( ) { } [ ] ^ " ~ * ? : /To interpret any of these characters literally (and not as a special character), precede the character with a backslash \ character.Search FieldsBy default, all text fields are used to search for the query. You can optionally specify the fields parameter with a single value or comma delimited string for multiple fields. Each type has specific fields that can be specified. This can be useful if you want to support more strict searches (i.e. title only).
+Type	Field
+movie	title
+tagline
+overview
+people
+translations
+aliases
+show	title
+overview
+people
+translations
+aliases
+episode	title
+overview
+person	name
+biography
+list	name
+descriptionID Lookup
+Get ID lookup results
+📄 Pagination ✨ Extended InfoLookup items by their Trakt, IMDB, TMDB, or TVDB ID. If you use the search url without a type it might return multiple items if the id_type is not globally unique. Specify the type of results by sending a single value or a comma delimited string for multiple types.
+Type	URL
+trakt	/search/trakt/:id
+/search/trakt/:id?type=movie
+/search/trakt/:id?type=show
+/search/trakt/:id?type=episode
+/search/trakt/:id?type=person
+imdb	/search/imdb/:id
+tmdb	/search/tmdb/:id
+/search/tmdb/:id?type=movie
+/search/tmdb/:id?type=show
+/search/tmdb/:id?type=episode
+/search/tmdb/:id?type=person
+tvdb	/search/tvdb/:id
+/search/tvdb/:id?type=show
+/search/tvdb/:id?type=episode
+Shows
+Trending
+Get trending shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns all shows being watched right now. Shows with the most users are returned first.Popular
+Get popular shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most popular shows. Popularity is calculated using the rating percentage and the number of ratings.Played
+Get the most played shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most played (a single user can watch multiple episodes multiple times) shows in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Watched
+Get the most watched shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most watched (unique users) shows in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Collected
+Get the most collected shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most collected (unique users) shows in the specified time period, defaulting to weekly. All stats are relative to the specific time period.Anticipated
+Get the most anticipated shows
+📄 Pagination ✨ Extended Info 🎚 FiltersReturns the most anticipated shows based on the number of lists a show appears on.Updates
+Get recently updated shows
+📄 Pagination ✨ Extended InfoReturns all shows updated since the specified UTC date. We recommended storing the date you can be efficient using this method moving forward. By default, 10 results are returned. You can send a limit to get up to 100 results per page.Summary
+Get a single show
+✨ Extended InfoReturns a single shows's details. If you request extended info, the airs object is relative to the show's country. You can use the day, time, and timezone to construct your own date then convert it to whatever timezone your user is in.Note: When getting full extended info, the status field can have a value of returning series (airing right now), in production (airing soon), planned (in development), canceled, or ended.Aliases
+Get all show aliases
+Returns all title aliases for a show. Includes country where name is different.Certifications
+Get all show certifications
+Returns all content certifications for a show, including the country.Translations
+Get all show translations
+Returns all translations for a show, including language and translated values for title and overview.Comments
+Get all show comments
+📄 PaginationReturns all top level comments for a show. By default, the newest comments are returned first. Other sorting options include oldest, most likes, most replies, highest rated, lowest rated, most plays, and highest watched percentage.Lists
+Get lists containing this show
+📄 PaginationReturns all lists that contain this show. By default, personal lists are returned sorted by the most popular.Collection Progress
+Get show collection progress
+🔒 OAuth RequiredReturns collection progress for a show including details on all aired seasons and episodes. The next_episode will be the next episode the user should collect, if there are no upcoming episodes it will be set to null.By default, any hidden seasons will be removed from the response and stats. To include these and adjust the completion stats, set the hidden flag to true.By default, specials will be excluded from the response. Set the specials flag to true to include season 0 and adjust the stats accordingly. If you'd like to include specials, but not adjust the stats, set count_specials to false.By default, the last_episode and next_episode are calculated using the last aired episode the user has collected, even if they've collected older episodes more recently. To use their last collected episode for these calculations, set the last_activity flag to collected.Note: Only aired episodes are used to calculate progress. Episodes in the future or without an air date are ignored.Watched Progress
+Get show watched progress
+🔒 OAuth RequiredReturns watched progress for a show including details on all aired seasons and episodes. The next_episode will be the next episode the user should watch, if there are no upcoming episodes it will be set to null. If not null, the reset_at date is when the user started re-watching the show. Your app can adjust the progress by ignoring episodes with a last_watched_at prior to the reset_at.By default, any hidden seasons will be removed from the response and stats. To include these and adjust the completion stats, set the hidden flag to true.By default, specials will be excluded from the response. Set the specials flag to true to include season 0 and adjust the stats accordingly. If you'd like to include specials, but not adjust the stats, set count_specials to false.By default, the last_episode and next_episode are calculated using the last aired episode the user has watched, even if they've watched older episodes more recently. To use their last watched episode for these calculations, set the last_activity flag to watched.Note: Only aired episodes are used to calculate progress. Episodes in the future or without an air date are ignored.People
+Get all people for a show
+✨ Extended InfoReturns all cast and crew for a show, including the episode_count for which they appears. Each cast member will have a characters array and a standard person object.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions). Each of those members will have a jobs array and a standard person object.Guest StarsIf you add ?extended=guest_stars to the URL, it will return all guest stars that appeared in at least 1 episode of the show.Note: This returns a lot of data, so please only use this extended parameter if you actually need it!Ratings
+Get show ratings
+Returns rating (between 0 and 10) and distribution for a show.Related
+Get related shows
+📄 Pagination ✨ Extended InfoReturns related and similar shows.Stats
+Get show stats
+Returns lots of show stats.Watching
+Get users watching right now
+✨ Extended InfoReturns all users watching this show right now.Next Episode
+Get next episode
+✨ Extended InfoReturns the next scheduled to air episode. If no episode is found, a 204 HTTP status code will be returned.Last Episode
+Get last episode
+✨ Extended InfoReturns the most recently aired episode. If no episode is found, a 204 HTTP status code will be returned.
+Seasons
+Summary
+Get all seasons for a show
+✨ Extended InfoReturns all seasons for a show including the number of episodes in each season.EpisodesIf you add ?extended=episodes to the URL, it will return all episodes for all seasons.Note: This returns a lot of data, so please only use this extended parameter if you actually need it!Season
+Get single season for a show
+✨ Extended InfoReturns all episodes for a specific season of a show.TranslationsIf you'd like to included translated episode titles and overviews in the response, include the translations parameter in the URL. Include all languages by setting the parameter to all or use a specific 2 digit country language code to further limit it.Note: This returns a lot of data, so please only use this parameter if you actually need it!Comments
+Get all season comments
+📄 PaginationReturns all top level comments for a season. By default, the newest comments are returned first. Other sorting options include oldest, most likes, most replies, highest rated, lowest rated, most plays, and highest watched percentage.Lists
+Get lists containing this season
+📄 PaginationReturns all lists that contain this season. By default, personal lists are returned sorted by the most popular.People
+Get all people for a season
+✨ Extended InfoReturns all cast and crew for a season, including the episode_count for which they appear. Each cast member will have a characters array and a standard person object.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions).. Each of those members will have a jobs array and a standard person object.Guest StarsIf you add ?extended=guest_stars to the URL, it will return all guest stars that appeared in at least 1 episode of the season.Note: This returns a lot of data, so please only use this extended parameter if you actually need it!Ratings
+Get season ratings
+Returns rating (between 0 and 10) and distribution for a season.Stats
+Get season stats
+Returns lots of season stats.Watching
+Get users watching right now
+✨ Extended InfoReturns all users watching this season right now.
+Episodes
+Summary
+Get a single episode for a show
+✨ Extended InfoReturns a single episode's details. All date and times are in UTC and were calculated using the episode's air_date and show's country and air_time.Note: If the first_aired is unknown, it will be set to null.Translations
+Get all episode translations
+Returns all translations for an episode, including language and translated values for title and overview.Comments
+Get all episode comments
+📄 PaginationReturns all top level comments for an episode. By default, the newest comments are returned first. Other sorting options include oldest, most likes, most replies, highest rated, lowest rated, and most plays.Lists
+Get lists containing this episode
+📄 PaginationReturns all lists that contain this episode. By default, personal lists are returned sorted by the most popular.People
+Get all people for an episode
+✨ Extended InfoReturns all cast and crew for an episode. Each cast member will have a characters array and a standard person object.The crew object will be broken up into production, art, crew, costume & make-up, directing, writing, sound, camera, visual effects, lighting, and editing (if there are people for those crew positions). Each of those members will have a jobs array and a standard person object.Guest StarsIf you add ?extended=guest_stars to the URL, it will return all guest stars that appeared in the episode.Note: This returns a lot of data, so please only use this extended parameter if you actually need it!Ratings
+Get episode ratings
+Returns rating (between 0 and 10) and distribution for an episode.Stats
+Get episode stats
+Returns lots of episode stats.Watching
+Get users watching right now
+✨ Extended InfoReturns all users watching this episode right now.
+SyncSyncing with trakt opens up quite a few cool features. Most importantly, trakt can serve as a cloud based backup for the data in your app. This is especially useful when rebuilding a media center or installing a mobile app on your new phone. It can also be nice to sync up multiple media centers with a central trakt account. If everything is in sync, your media can be managed from trakt and be reflected in your apps.Media objects for syncingAs a baseline, all add and remove sync methods accept arrays of movies, shows, and episodes. Each of these top level array elements should themselves be an array of standard movie, show, or episode objects. Full examples are in the intro section called Standard Media Objects. Keep in mind that episode objects really only need the ids so it can find an exact match. This is useful for absolute ordered shows. Some methods also have optional metadata you can attach, so check the docs for each specific method.Media objects will be matched by ID first, then fall back to title and year. IDs will be matched in this order trakt, imdb, tmdb, tvdb, and slug. If nothing is found, it will match on the title and year. If still nothing, it would use just the title (or name for people) and find the most current object that exists.Watched History SyncThis is a 2 way sync that will get items from trakt to sync locally, plus find anything new and sync back to trakt. Perform this sync on startup or at set intervals (i.e. once every day) to keep everything in sync. This will only send data to trakt and not remove it.Collection SyncIt's very handy to have a snapshot on trakt of everything you have available to watch locally. Syncing your local connection will do just that. This will only send data to trakt and not remove it.Clean CollectionCleaning a collection involves comparing the trakt collection to what exists locally. This will remove items from the trakt collection if they don't exist locally anymore. You should make this clear to the user that data might be removed from trakt.
+Last Activities
+Get last activity
+🔒 OAuth RequiredThis method is a useful first step in the syncing process. We recommended caching these dates locally, then you can compare to know exactly what data has changed recently. This can greatly optimize your syncs so you don't pull down a ton of data only to see nothing has actually changed.Playback
+Get playback progress
+🔒 OAuth RequiredWhenever a scrobble is paused, the playback progress is saved. Use this progress to sync up playback across different media centers or apps. For example, you can start watching a movie in a media center, stop it, then resume on your tablet from the same spot. Each item will have the progress percentage between 0 and 100.You can optionally specify a type to only get movies or episodes.By default, all results will be returned. However, you can send a limit if you only need a few recent results for something like an "on deck" feature.Remove Playback
+Remove a playback item
+🔒 OAuth RequiredRemove a playback item from a user's playback progress list. A 404 will be returned if the id is invalid.Get Collection
+Get collection
+🔒 OAuth Required ✨ Extended InfoGet all collected items in a user's collection. A collected item indicates availability to watch digitally or on physical media.Each movie object contains collected_at and updated_at timestamps. Since users can set custom dates when they collected movies, it is possible for collected_at to be in the past. We also include updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the movie if you see a newer timestamp.Each show object contains last_collected_at and last_updated_at timestamps. Since users can set custom dates when they collected episodes, it is possible for last_collected_at to be in the past. We also include last_updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the show if you see a newer timestamp.If you add ?extended=metadata to the URL, it will return the additional media_type, resolution, hdr, audio, audio_channels and '3d' metadata. It will use null if the metadata isn't set for an item.Add to Collection
+Add items to collection
+🔒 OAuth RequiredAdd items to a user's collection. Accepts shows, seasons, episodes and movies. If only a show is passed, all episodes for the show will be collected. If seasons are specified, all episodes in those seasons will be collected.Send a collected_at UTC datetime to mark items as collected in the past. You can also send additional metadata about the media itself to have a very accurate collection. Showcase what is available to watch from your epic HD DVD collection down to your downloaded iTunes movies.Note: You can resend items already in your collection and they will be updated with any new values. This includes the collected_at and any other metadata.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.MEDIA OBJECT POST DATA
+Key	Type	Value
+item *	object	movie, show, or episode object.
+collected_at	datetime	UTC datetime when the item was collected. Set to released to automatically use the inital release date.
+media_type	string	Set to digital, bluray, hddvd, dvd, vcd, vhs, betamax, or laserdisc.
+resolution	string	Set to uhd_4k, hd_1080p, hd_1080i, hd_720p, sd_480p, sd_480i, sd_576p, or sd_576i.
+hdr	string	Set to dolby_vision, hdr10, hdr10_plus, or hlg.
+audio	string	Set to lpcm, mp3, aac, ogg, wma, dts, dts_ma, dts_hr, dts_x, auro_3d, dolby_digital, dolby_digital_plus, dolby_atmos, dolby_truehd, or dolby_prologic.
+audio_channels	string	Set to 1.0, 2.0, 2.1, 3.0, 3.1, 4.0, 4.1, 5.0, 5.1, 5.1.2, 5.1.4, 6.1, 7.1, 7.1.2, 7.1.4, 9.1, or 10.1
+3d	boolean	Set true if in 3D.Remove from Collection
+Remove items from collection
+🔒 OAuth RequiredRemove one or more items from a user's collection.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.Get Watched
+Get watched
+🔒 OAuth Required ✨ Extended InfoReturns all movies or shows a user has watched sorted by most plays.If type is set to shows and you add ?extended=noseasons to the URL, it won't return season or episode info.Each movie and show object contains last_watched_at and last_updated_at timestamps. Since users can set custom dates when they watched movies and episodes, it is possible for last_watched_at to be in the past. We also include last_updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the movies and shows if you see a newer timestamp.Each show object contains a reset_at timestamp. If not null, this is when the user started re-watching the show. Your app can adjust the progress by ignoring episodes with a last_watched_at prior to the reset_at.Get History
+Get watched history
+🔒 OAuth Required 📄 Pagination ✨ Extended InfoReturns movies and episodes that a user has watched, sorted by most recent. You can optionally limit the type to movies or episodes. The id (64-bit integer) in each history item uniquely identifies the event and can be used to remove individual events by using the /sync/history/remove method. The action will be set to scrobble, checkin, or watch.Specify a type and trakt id to limit the history for just that item. If the id is valid, but there is no history, an empty array will be returned.
+Example URL	Returns watches for...
+/history/movies/12601	TRON: Legacy
+/history/shows/1388	All episodes of Breaking Bad
+/history/seasons/3950	All episodes of Breaking Bad: Season 1
+/history/episodes/73482	Only episode 1 for Breaking Bad: Season 1Add to History
+Add items to watched history
+🔒 OAuth RequiredAdd items to a user's watch history. Accepts shows, seasons, episodes and movies. If only a show is passed, all episodes for the show will be added. If seasons are specified, only episodes in those seasons will be added.Send a watched_at UTC datetime to mark items as watched in the past. This is useful for syncing past watches from a media center.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.MEDIA OBJECT POST DATA
+Key	Type	Value
+item *	object	movie, show, or episode object.
+watched_at	datetime	UTC datetime when the item was watched. Set to released to automatically use the initial release date.Remove from History
+Remove items from history
+🔒 OAuth RequiredRemove items from a user's watch history including all watches, scrobbles, and checkins. Accepts shows, seasons, episodes and movies. If only a show is passed, all episodes for the show will be removed. If seasons are specified, only episodes in those seasons will be removed.You can also send a list of raw history ids (64-bit integers) to delete single plays from the watched history. The /sync/history method will return an individual id (64-bit integer) for each history item.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.
+ids	array	Array of history ids.Get Ratings
+Get ratings
+🔒 OAuth Required 📄 Pagination Optional ✨ Extended InfoGet a user's ratings filtered by type. You can optionally filter for a specific rating between 1 and 10. Send a comma separated string for rating if you need multiple ratings.Add Ratings
+Add new ratings
+🔒 OAuth RequiredRate one or more items. Accepts shows, seasons, episodes and movies. If only a show is passed, only the show itself will be rated. If seasons are specified, all of those seasons will be rated.Send a rated_at UTC datetime to mark items as rated in the past. This is useful for syncing ratings from a media center.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.MEDIA OBJECT POST DATA
+Key	Type	Value
+item *	object	movie, show, season, or episode object.
+rating *	integer	Between 1 and 10.
+rated_at	datetime	UTC datetime when the item was rated.Remove Ratings
+Remove ratings
+🔒 OAuth RequiredRemove ratings for one or more items.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.Get Watchlist
+Get watchlist
+🔒 OAuth Required 📄 Pagination Optional ✨ Extended InfoReturns all items in a user's watchlist filtered by type.Sorting HeadersBy default, all list items are sorted by rank asc. We send X-Applied-Sort-By and X-Applied-Sort-How headers to indicate how the results are actually being sorted.We also send X-Sort-By and X-Sort-How headers which indicate the user's sort preference. Use these to to custom sort the watchlist in your app for more advanced sort abilities we can't do in the API. Values for X-Sort-By include rank, added, title, released, runtime, popularity, percentage, and votes. Values for X-Sort-How include asc and desc.Auto RemovalWhen an item is watched, it will be automatically removed from the watchlist. For shows and seasons, watching 1 episode will remove the entire show or season.The watchlist should not be used as a list of what the user is actively watching.Use a combination of the /sync/watched and /shows/:id/progress methods to get what the user is actively watching.Add to Watchlist
+Add items to watchlist
+🔒 OAuth RequiredAdd one of more items to a user's watchlist. Accepts shows, seasons, episodes and movies. If only a show is passed, only the show itself will be added. If seasons are specified, all of those seasons will be added.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.Remove from Watchlist
+Remove items from watchlist
+🔒 OAuth RequiredRemove one or more items from a user's watchlist.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.
+UsersUser's with public data will return info with all GET methods. Private user's (including yourself) require valid OAuth and a friend relationship to return data.Username vs. slugAll users methods should use the slug to identify the user. The slug is a URL safe and globally unique version of the username.Special id for the OAuth userIf you send valid OAuth, you can use me to identify the OAuth user instead of needing their actual slug. You can of course still use their actual slug, it's up to you.Extra headersIf valid OAuth is sent, additional headers will be sent to better determine it is a data permissions issue (they aren't friends) and not bad OAuth. For example, you might try and access a private user's list you aren't friends with. This will return a 401 HTTP status code and the additional headers. This means the OAuth is valid, but authorization ultimately failed because there is no friend relationship.
+Header	Value
+X-Private-User	true or falseCreating New UsersSince the API uses OAuth, users can create a new account during that flow if they need to. As far as your app is concerned, you'll still receive OAuth tokens no matter if they sign in with an existing account or create a new one.
+Settings
+Retrieve settings
+🔒 OAuth RequiredGet the user's settings so you can align your app's experience with what they're used to on the trakt website.Follower Requests
+Get follow requests
+🔒 OAuth Required ✨ Extended InfoList a user's pending follow requests so they can either approve or deny them.Approve or Deny Follower Requests
+Approve follow request
+🔒 OAuth RequiredApprove a follower using the id of the request. If the id is not found, was already approved, or was already denied, a 404 error will be returned.
+Deny follow request
+🔒 OAuth RequiredDeny a follower using the id of the request. If the id is not found, was already approved, or was already denied, a 404 error will be returned.Hidden Items
+Get hidden items
+🔒 OAuth Required 📄 Pagination ✨ Extended InfoGet hidden items for a section. This will return an array of standard media objects. You can optionally limit the type of results to return.Add Hidden Items
+Add hidden items
+🔒 OAuth RequiredHide items for a specific section. Here's what type of items can hidden for each section.HIDEABLE MEDIA OBJECTS
+Section	Objects
+calendar	movie, show
+progress_watched	show, season
+progress_collected	show, season
+recommendations	movie, showJSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.Remove Hidden Items
+Remove hidden items
+🔒 OAuth RequiredUnhide items for a specific section. Here's what type of items can unhidden for each section.UNHIDEABLE MEDIA OBJECTS
+Section	Objects
+calendar	movie, show
+progress_watched	show, season
+progress_collected	show, season
+recommendations	movie, showJSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.Likes
+Get likes
+🔒 OAuth Required 📄 PaginationGet items a user likes. This will return an array of standard media objects. You can optionally limit the type of results to return.Profile
+Get user profile
+🔓 OAuth Optional ✨ Extended InfoGet a user's profile information. If the user is private, info will only be returned if you send OAuth and are either that user or an approved follower. Adding ?extended=vip will return some additional VIP related fields so you can display the user's Trakt VIP status and year count.Collection
+Get collection
+🔓 OAuth Optional ✨ Extended InfoGet all collected items in a user's collection. A collected item indicates availability to watch digitally or on physical media.Each movie object contains collected_at and updated_at timestamps. Since users can set custom dates when they collected movies, it is possible for collected_at to be in the past. We also include updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the movie if you see a newer timestamp.Each show object contains last_collected_at and last_updated_at timestamps. Since users can set custom dates when they collected episodes, it is possible for last_collected_at to be in the past. We also include last_updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the show if you see a newer timestamp.If you add ?extended=metadata to the URL, it will return the additional media_type, resolution, hdr, audio, audio_channels and '3d' metadata. It will use null if the metadata isn't set for an item.Comments
+Get comments
+🔓 OAuth Optional 📄 Pagination ✨ Extended InfoReturns the most recently written comments for the user. You can optionally filter by the comment_type and media type to limit what gets returned.By default, only top level comments are returned. Set ?include_replies=true to return replies in addition to top level comments. Set ?include_replies=only to return only replies and no top level comments.Lists
+Get a user's custom lists
+🔓 OAuth OptionalReturns all custom lists for a user. Use the /users/:id/lists/:list_id/items method to get the actual items a specific list contains.
+Create custom list
+🔒 OAuth RequiredCreate a new custom list. The name is the only required field, but the other info is recommended to ask for.JSON POST DATA
+Key	Type	Default	Value
+name *	string		Name of the list.
+description	string		Description for this list.
+privacy	string	private	private, friends, public
+display_numbers	boolean	false	Should each item be numbered?
+allow_comments	boolean	true	Are comments allowed?
+sort_by	string	rank	rank, added, title, released, runtime, popularity, percentage, votes, my_rating, random, watched, collected
+sort_how	string	asc	asc, descReorder Lists
+Reorder a user's lists
+🔒 OAuth RequiredReorder all lists by sending the updated rank of list ids. Use the /users/:id/lists method to get all list ids.List
+Get custom list
+🔓 OAuth OptionalReturns a single custom list. Use the /users/:id/lists/:list_id/items method to get the actual items this list contains.
+Update custom list
+🔒 OAuth RequiredUpdate a custom list by sending 1 or more parameters. If you update the list name, the original slug will still be retained so existing references to this list won't break.JSON POST DATA
+Key	Type	Value
+name	string	Name of the list.
+description	string	Description for this list.
+privacy	string	private, friends, public
+display_numbers	boolean	Should each item be numbered?
+allow_comments	boolean	Are comments allowed?
+sort_by	string	rank, added, title, released, runtime, popularity, percentage, votes, my_rating, random, watched, collected
+sort_how	string	asc, desc
+Delete a user's custom list
+🔒 OAuth RequiredRemove a custom list and all items it contains.List Like
+Like a list
+🔒 OAuth RequiredVotes help determine popular lists. Only one like is allowed per list per user.
+Remove like on a list
+🔒 OAuth RequiredRemove a like on a list.List Items
+Get items on a custom list
+🔓 OAuth Optional 📄 Pagination Optional ✨ Extended InfoGet all items on a custom list. Items can be a movie, show, season, episode, or person. You can optionally specify the type parameter with a single value or comma delimited string for multiple item types.All list items are sorted by ascending rank. We also send X-Sort-By and X-Sort-How headers which can be used to custom sort the list in your app based on the user's preference. Values for X-Sort-By include rank, added, title, released, runtime, popularity, percentage, votes, my_rating, random, watched, and collected. Values for X-Sort-How include asc and desc.Add List Items
+Add items to custom list
+🔒 OAuth RequiredAdd one or more items to a custom list. Items can be movies, shows, seasons, episodes, or people.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.
+people	array	Array of person objects.Remove List Items
+Remove items from custom list
+🔒 OAuth RequiredRemove one or more items from a custom list.JSON POST DATA
+Key	Type	Value
+movies	array	Array of movie objects. (see examples →)
+shows	array	Array of show objects.
+seasons	array	Array of season objects.
+episodes	array	Array of episode objects.
+people	array	Array of person objects.Reorder List Items
+Reorder items on a list
+🔒 OAuth RequiredReorder all items on a list by sending the updated rank of list item ids. Use the /users/:id/lists/:list_id/items method to get all list item ids.List Comments
+Get all list comments
+📄 PaginationReturns all top level comments for a list. By default, the newest comments are returned first. Other sorting options include oldest, most likes, and most replies.Follow
+Follow this user
+🔒 OAuth RequiredIf the user has a private profile, the follow request will require approval (approved_at will be null). If a user is public, they will be followed immediately (approved_at will have a date).Note: If this user is already being followed, a 409 HTTP status code will returned.
+
+Unfollow this user
+🔒 OAuth RequiredUnfollow someone you already follow.Followers
+
+Get followers
+🔓 OAuth Optional ✨ Extended InfoReturns all followers including when the relationship began.Following
+
+Get following
+🔓 OAuth Optional ✨ Extended InfoReturns all user's they follow including when the relationship began.Friends
+
+Get friends
+🔓 OAuth Optional ✨ Extended InfoReturns all friends for a user including when the relationship began. Friendship is a 2 way relationship where each user follows the other.History
+
+Get watched history
+🔓 OAuth Optional 📄 Pagination ✨ Extended InfoReturns movies and episodes that a user has watched, sorted by most recent. You can optionally limit the type to movies or episodes. The id (64-bit integer) in each history item uniquely identifies the event and can be used to remove individual events by using the /sync/history/remove method. The action will be set to scrobble, checkin, or watch.Specify a type and trakt item_id to limit the history for just that item. If the item_id is valid, but there is no history, an empty array will be returned.
+Example URL	Returns watches for...
+/history/movies/12601	TRON: Legacy
+/history/shows/1388	All episodes of Breaking Bad
+/history/seasons/3950	All episodes of Breaking Bad: Season 1
+/history/episodes/73482	Only episode 1 for Breaking Bad: Season 1Ratings
+
+Get ratings
+🔓 OAuth Optional 📄 Pagination Optional ✨ Extended InfoGet a user's ratings filtered by type. You can optionally filter for a specific rating between 1 and 10. Send a comma separated string for rating if you need multiple ratings.Watchlist
+
+Get watchlist
+🔓 OAuth Optional 📄 Pagination Optional ✨ Extended InfoReturns all items in a user's watchlist filtered by type.Sorting HeadersBy default, all list items are sorted by rank asc. We send X-Applied-Sort-By and X-Applied-Sort-How headers to indicate how the results are actually being sorted.We also send X-Sort-By and X-Sort-How headers which indicate the user's sort preference. Use these to to custom sort the watchlist in your app for more advanced sort abilities we can't do in the API. Values for X-Sort-By include rank, added, title, released, runtime, popularity, percentage, and votes. Values for X-Sort-How include asc and desc.Auto RemovalWhen an item is watched, it will be automatically removed from the watchlist. For shows and seasons, watching 1 episode will remove the entire show or season.The watchlist should not be used as a list of what the user is actively watching.Use a combination of the /sync/watched and /shows/:id/progress methods to get what the user is actively watching.Watching
+
+Get watching
+🔓 OAuth Optional ✨ Extended InfoReturns a movie or episode if the user is currently watching something. If they are not, it returns no data and a 204 HTTP status code.Watched
+
+Get watched
+🔓 OAuth Optional ✨ Extended InfoReturns all movies or shows a user has watched sorted by most plays.If type is set to shows and you add ?extended=noseasons to the URL, it won't return season or episode info.Each movie and show object contains last_watched_at and last_updated_at timestamps. Since users can set custom dates when they watched movies and episodes, it is possible for last_watched_at to be in the past. We also include last_updated_at to help sync Trakt data with your app. Cache this timestamp locally and only re-process the movies and shows if you see a newer timestamp.Each show object contains a reset_at timestamp. If not null, this is when the user started re-watching the show. Your app can adjust the progress by ignoring episodes with a last_watched_at prior to the reset_at.Stats
+
+Get stats
+🔓 OAuth OptionalReturns stats about the movies, shows, and episodes a user has watched, collected, and rated.
