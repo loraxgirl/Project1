@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    var test = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location=los-angeles";
+    var test = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-chloe&location=los-angeles";
 
          $.ajax({
             url: test,
@@ -21,7 +21,7 @@ $(document).ready(function () {
                    $.each(data.businesses, function(i, item) {
                        // Store each business's object in a variable
                        var id = item.id;
-                       //var alias = item.alias;
+                       var alias = item.alias;
                        var phone = item.display_phone;
                        var image = item.image_url;
                        var name = item.name;
@@ -32,18 +32,8 @@ $(document).ready(function () {
                        var state = item.location.state;
                        var zipcode = item.location.zip_code;
                        // Append our result into our page
-                      
-                     $('#results').append('<div class="resultRow" id="' + id + 
-                     '" style="margin-top:50px;margin-bottom:50px;"><img src="' + image + 
-                     '" style="width:220px;height:200px;"><br><div class="info">Name : <b>' + name + 
-                     '</b><br>Business ID: ' + id + 
-                     '<br> Location (Address):  ' + address + '<br>' + city + '  ' + state + ' ' + zipcode + 
-                     '<br>Phone number : ' + phone + 
-                     '<br>Rating : ' + rating + ' with ' + reviewcount + ' reviews.</div></div>');
-                
-
-                
-                    });
+                       $('#results').append('<div id="' + id + '" style="margin-top:50px;margin-bottom:50px;"><img src="' + image + '" style="width:200px;height:150px;"><br>We found <b>' + name + '</b> (' + alias + ')<br>Business ID: ' + id + '<br> Located at: ' + address + ' ' + city + ', ' + state + ' ' + zipcode + '<br>The phone number for this business is: ' + phone + '<br>This business has a rating of ' + rating + ' with ' + reviewcount + ' reviews.</div>');
+                 });
                } else {
                    // If our results are 0; no businesses were returned by the JSON therefor we display on the page no results were found
                    $('#results').append('<h5>We discovered no results!</h5>');
@@ -51,9 +41,8 @@ $(document).ready(function () {
            }
         });      
 
-
     
-        /*var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/{id}/reviews?locale={en}_{CA}";
+        var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/{id}/reviews?locale={en}_{CA}";
 
         $.ajax({
            url: myurl,
@@ -65,10 +54,14 @@ $(document).ready(function () {
            success: function(data){
                console.log('success: '+data);
            }
-        });   */   
+        });      
 
 
 
 
 
 });
+
+
+
+
