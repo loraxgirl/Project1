@@ -1,0 +1,85 @@
+body {
+	background-image:               url("../images/heart-background.jpg");
+    font-family:                    'Nova Square', cursive;
+    background-repeat:              no-repeat;
+    background-size:                cover;
+}
+
+.jumbotron {
+    text-align:                     center;
+    padding-bottom:                 2px;
+    padding-top: 10px;
+    background-image:               url("../images/hexellence.png");
+    filter:                         drop-shadow(5px 5px 10px darkmagenta);
+}
+
+h1 {
+    font-family:                    'Amarante', cursive;
+    font-size:                      260%;
+    color:                          darkred;
+    filter:                         drop-shadow(2px 2px 2px rgb(139, 247, 247));
+    -webkit-text-stroke:            1px #093249;
+}
+
+.wrapper {
+width:                              95%;
+height:                             12%;
+text-align:                         center;
+margin:                             auto;
+}
+
+.container {
+background-color:                   white;
+width:                              95%;
+}
+
+#active {
+    background-color:               crimson;
+    color:                          white;
+}
+
+#link {
+    color:                          darkred;
+}
+
+#link:hover {
+    background-color:               #E34363;
+    color:                          gold;
+}
+
+div {
+    border: 0.5px solid black;
+}
+
+img {
+	max-width:                      220px;
+	max-height:                     220px;
+}
+
+label {
+    color:                          darkred;
+    font-size:                      x-large;
+    text-align:                     center;
+}
+
+label2 {
+    color:                          darkred;
+    font-size:                      medium;
+    text-align:                     left;
+}
+
+.btn-default {
+    color:                          #000;
+    font-size:                      medium;
+    background-color:               goldenrod;
+}
+
+.btn-default:hover {
+    background-color:               darkgoldenrod;
+}
+
+.holder {
+    float:                          left;
+}
+
+
