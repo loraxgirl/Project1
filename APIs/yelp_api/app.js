@@ -1,15 +1,9 @@
 $(document).ready(function () {
-    var ywsid = 'UrPhGRv43J2Hg8G_0ELofQ'
-var ylimit = '10'
-var ylocation = 'tl_lat=37.9&tl_long=-122.5&br_lat=37.788022&br_long=-122.399797'
-var yurl = 'http://api.yelp.com/business_review_search?'+ylocation+'&limit='+ylimit+'&ywsid='+ywsid
-
-    function buildQueryURL() {
-        
-    var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location=los-angeles";
+    
+    var search = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location=los-angeles";
 
          $.ajax({
-            url: queryURL ,
+            url: search ,
             headers: {
              'Authorization':'Bearer VVvVOjZGwwjxwP4wq77qbiUkO8tOtAWv7M6f0WIIkbRNnYzcGYm9jpxdWa9sEHncnFvEIDaU6pl3CftfLcI8sw_6gwZAZfjM9I6kRmMTdKUtszphLRLoOW3oIqrEXnYx',
          },
@@ -19,16 +13,12 @@ var yurl = 'http://api.yelp.com/business_review_search?'+ylocation+'&limit='+yli
                 console.log('success: '+data);
                // Grab the results from the API JSON return
                var totalresults = data.total;
-
-        
-               
+          
                // If our results are greater than 0, continue
                if (totalresults > 0){
                    // Display a header on the page with the number of results
                    $('#results').append('<h5>We discovered ' + totalresults + ' results!</h5>');
                    // Itirate through the JSON array of 'businesses' which was returned by the API
-
-              
                    $.each(data.businesses, function(i, item) {
                   
                        // Store each business's object in a variable
@@ -61,13 +51,7 @@ var yurl = 'http://api.yelp.com/business_review_search?'+ylocation+'&limit='+yli
                    $('#results').append('<h5>We discovered no results!</h5>');
                }
            }
-        });     
-        
-    };
-
-    buildQueryURL();
-//---------------------------
-    });
+        });      
 
 
     
@@ -85,3 +69,8 @@ var yurl = 'http://api.yelp.com/business_review_search?'+ylocation+'&limit='+yli
            }
         });   */   
 
+
+
+
+
+});

@@ -1,8 +1,11 @@
 YELP
 
-https://www.yelp.com/developers/documentation/v3/transaction_search
+Client ID
+r97D6Z7Y2jc7TWX6tEXulA
+API Key
+VVvVOjZGwwjxwP4wq77qbiUkO8tOtAWv7M6f0WIIkbRNnYzcGYm9jpxdWa9sEHncnFvEIDaU6pl3CftfLcI8sw_6gwZAZfjM9I6kRmMTdKUtszphLRLoOW3oIqrEXnYx
 
-This endpoint returns up to 1000 businesses based on the provided search criteria. It has some basic information about the business. To get detailed information and reviews, please use the Business ID returned here and refer to /businesses/{id} and /businesses/{id}/reviews endpoints.
+https://www.yelp.com/developers/documentation/v3/transaction_search
 
 TRANSACTIONS SEARCH
 /transactions/{transaction_type}/search
@@ -15,16 +18,14 @@ GET https://api.yelp.com/v3/transactions/{transaction_type}/search
 Valid values for transaction_type are:
 
 delivery: food delivery.
-Note
-Currently, this endpoint only supports food delivery in the US.
+Note Currently, this endpoint only supports food delivery in the US.
 
+GET https://api.yelp.com/v3/transactions/delivery/search?location=
 
 Parameters
 These parameters should be in query string.
 
 Name	Type	Description
-latitude	decimal	Required when location isn't provided. Latitude of the location you want to deliver to.
-longitude	decimal	Required when location isn't provided. Longitude of the location you want to deliver to.
 location	string	Required when latitude and longitude aren't provided. Address of the location you want to deliver to.
 
 Response Body
