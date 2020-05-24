@@ -8,8 +8,7 @@ body {
 .jumbotron {
     text-align:                     center;
     padding-bottom:                 2px;
-    padding-top: 10px;
-    background-image:               url("../images/hexellence.png");
+    padding-top:                    10px;
     filter:                         drop-shadow(5px 5px 10px darkmagenta);
 }
 
@@ -48,7 +47,7 @@ width:                              95%;
 }
 
 /* div {
-    border: 0.5px solid black;
+    border: 0.25px solid black;
 } */
 
 img {
@@ -57,14 +56,8 @@ img {
 
 label {
     color:                          darkred;
-    font-size:                      x-large;
+    font-size:                      large;
     text-align:                     center;
-}
-
-label2 {
-    color:                          darkred;
-    font-size:                      medium;
-    text-align:                     left;
 }
 
 .btn-default {
@@ -81,26 +74,12 @@ label2 {
     float:                          left;
 }
 
-select { 
-    appearance: none; 
-    outline: 0; 
-    background: green; 
-    background-image: none; 
-    width: 100%; 
-    height: 100%; 
-    color: black; 
-    cursor: pointer; 
-    border:1px solid black; 
-    border-radius:3px; 
-} 
-.select { 
-    position: relative; 
-    display: block; 
-    width: 15em; 
-    height: 2em; 
-    line-height: 3; 
-    overflow: hidden; 
-    border-radius: .25em; 
-    padding-bottom:10px; 
-      
-} 
+.form-row {
+    padding-top:                    8px; 
+    line-height:                    2; 
+}
+
+ #navbar    {
+    padding-bottom:                 10px; 
+ }
+
