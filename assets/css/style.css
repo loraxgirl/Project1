@@ -83,3 +83,59 @@ label {
     padding-bottom:                 10px; 
  }
 
+
+ /* CSS Style for Dinner Page */
+
+ #answer{
+    font-size: 16px;
+}
+
+h5{
+    color: white;
+    text-align: center;
+}
+
+
+.resultRow{
+    text-align: center;
+    margin-bottom:10px;
+    border: 5px solid rgb(230, 69, 96);
+    background-color:rgba(191, 188, 188, 0.399);
+    height: 250px;
+}
+
+#pic{
+    float: left;
+    padding:10px;
+    width:400px;
+    height:200px;
+   
+}
+
+.info{
+    margin-right:80px;
+    
+    float: right;
+}
+
+#inputForm{
+    text-align: center;
+    margin: center;
+    margin: 5px;
+    width:100%;
+}
+
+.iconDiv{
+    text-align: center;
+}
+ 
+#search{
+    background-color: rgb(228, 71, 97);
+    margin: auto;
+}
+
+#search ,#clear-all{
+    width:100px;
+    height: 40px;
+   margin: 15px;
+}
