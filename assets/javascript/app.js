@@ -53,8 +53,8 @@ $(document).ready(function () {
                      $('#results').append('<div class="resultRow" id="' + id + 
                      '" style="margin-top:50px;margin-bottom:50px;"><img id="pic" src="' + image + 
                      '" ><br><div class="info">Name : <b>' + name + 
-                     '</b><br>Business ID: ' + id + 
-                     '<br> Location (Address):  ' + address + '<br>' + city + '  ' + state + ' ' + zipcode + 
+                     '</b><br>Business ID : ' + id + 
+                     '<br> Location :  ' + address + '<br>' + city + '  ' + state + ' ' + zipcode + 
                      '<br>Phone number : ' + phone + 
                      '<br>Rating : ' + rating + ' with ' + reviewcount + ' reviews.</div></div>');
                 
