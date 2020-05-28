@@ -1,5 +1,6 @@
-//-------------------------------------------------------//
-// Dinner Page
+$(document).ready(function () {
+
+
     $("#search").on("click", function(event) {
         event.preventDefault();
        
@@ -7,7 +8,7 @@
         var location = $("#input-term").val().trim();
         var categories =$("#selectType").val().trim();
       ////Reset the input box to blank after user submit
-      inputForm.reset();
+        inputForm.reset();
        
   
     var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location="+location+"&categories="+categories;
@@ -51,27 +52,31 @@
                        // Append our result into our page
                       
                      $('#results').append('<div class="resultRow" id="' + id + 
-                     '" style="margin-top:50px;margin-bottom:50px;"><img id="pic" src="' + image + 
-                     '" ><br><div class="info">Name : <b>' + name + 
-                     '</b><br>Business ID : ' + id + 
-                     '<br> Location :  ' + address + '<br>' + city + '  ' + state + ' ' + zipcode + 
+                     '" style="margin-top:50px;margin-bottom:50px;"><img src="' + image + 
+                     '" style="width:220px;height:200px;"><br><div class="info">Name : <b>' + name + 
+                     '</b><br>Business ID: ' + id + 
+                     '<br> Location (Address):  ' + address + '<br>' + city + '  ' + state + ' ' + zipcode + 
                      '<br>Phone number : ' + phone + 
                      '<br>Rating : ' + rating + ' with ' + reviewcount + ' reviews.</div></div>');
+                
+
                 
                     });
                } else {
                    // If our results are 0; no businesses were returned by the JSON therefor we display on the page no results were found
-                   $('#results').append('<h5 id="discovered">We discovered no results! Please Refresh The Page!! and Enter Again</h5>');
+                   $('#results').append('<h5>We discovered no results!</h5>');
                }
            }
-        });             
+        });     
+
+        
+        
 
 }); 
 
 function clear() {
     $("#results").empty();
-    $("#discovered").empty();
-    inputForm.reset();
+    
   }
 
 //  .on("click") function associated with the clear button
@@ -80,66 +85,26 @@ $("#clear-all").on("click", function(){
 });
 
 
-//----------------------------------------------------------------//
-
-// Home Page
-
-//----------------------------- MAP API ------------------------------------//
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuYmFiYTI1MjUiLCJhIjoiY2thbXc0MmFsMWl0NDJ2cXo0YzRqanR1ZyJ9.5sTRCYYLe8iSOjPnF84w7w';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-118.243683, 34.052235],
-        zoom: 13
-	});
-	
-	var marker = new mapboxgl.Marker()
-    .setLngLat([-118.243683, 34.052235])
-    .addTo(map);
-
-    map.addControl(
-        new MapboxDirections({
-            accessToken: mapboxgl.accessToken
-        }),
-        'top-left'
-    );
-
-    // Add geolocate control to the map.
-    map.addControl(
-    new mapboxgl.GeolocateControl({
-    positionOptions: {
-    enableHighAccuracy: true
-    },
-    trackUserLocation: true
-    })
-    );
-
-    // Click to refresh the The HOME page
-    $("#reload").click(function(){
-        location.reload(true);
+//---------------------------
     });
-
-//---------------------------- Movies API ---------------------------------------//
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
 
 
     
-        
+        /*var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/{id}/reviews?locale={en}_{CA}";
+
+        $.ajax({
+           url: myurl,
+           headers: {
+            'Authorization':'Bearer VVvVOjZGwwjxwP4wq77qbiUkO8tOtAWv7M6f0WIIkbRNnYzcGYm9jpxdWa9sEHncnFvEIDaU6pl3CftfLcI8sw_6gwZAZfjM9I6kRmMTdKUtszphLRLoOW3oIqrEXnYx',
+        },
+           method: 'GET',
+           dataType: 'json',
+           success: function(data){
+               console.log('success: '+data);
+           }
+        });   */   
+
+
 
 
 

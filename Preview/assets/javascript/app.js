@@ -1,8 +1,9 @@
-//-------------------------------------------------------//
+$(document).ready(function(){
 // Dinner Page
+    $("#map").hide();
     $("#search").on("click", function(event) {
         event.preventDefault();
-       
+        $("#map").show();
         // This line grabs the input from the textbox
         var location = $("#input-term").val().trim();
         var categories =$("#selectType").val().trim();
@@ -26,7 +27,6 @@
                var totalresults = data.total;
 
         
-               
                // If our results are greater than 0, continue
                if (totalresults > 0){
                    // Display a header on the page with the number of results
@@ -68,16 +68,23 @@
 
 }); 
 
+}); 
+
+
+
 function clear() {
     $("#results").empty();
     $("#discovered").empty();
     inputForm.reset();
+    location.reload(true);
+
   }
 
 //  .on("click") function associated with the clear button
 $("#clear-all").on("click", function(){
     clear();
 });
+
 
 
 //----------------------------------------------------------------//
@@ -115,31 +122,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuYmFiYTI1MjUiLCJhIjoiY2thbXc0MmFsMWl0NDJ2c
     })
     );
 
-    // Click to refresh the The HOME page
-    $("#reload").click(function(){
-        location.reload(true);
-    });
-
-//---------------------------- Movies API ---------------------------------------//
 
 
 
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-    
-        
 
 
 

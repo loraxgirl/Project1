@@ -1,5 +1,5 @@
-//-------------------------------------------------------//
-// Dinner Page
+$(document).ready(function () {
+
     $("#search").on("click", function(event) {
         event.preventDefault();
        
@@ -79,63 +79,7 @@ $("#clear-all").on("click", function(){
     clear();
 });
 
-
-//----------------------------------------------------------------//
-
-// Home Page
-
-//----------------------------- MAP API ------------------------------------//
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiYmVuYmFiYTI1MjUiLCJhIjoiY2thbXc0MmFsMWl0NDJ2cXo0YzRqanR1ZyJ9.5sTRCYYLe8iSOjPnF84w7w';
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-118.243683, 34.052235],
-        zoom: 13
-	});
-	
-	var marker = new mapboxgl.Marker()
-    .setLngLat([-118.243683, 34.052235])
-    .addTo(map);
-
-    map.addControl(
-        new MapboxDirections({
-            accessToken: mapboxgl.accessToken
-        }),
-        'top-left'
-    );
-
-    // Add geolocate control to the map.
-    map.addControl(
-    new mapboxgl.GeolocateControl({
-    positionOptions: {
-    enableHighAccuracy: true
-    },
-    trackUserLocation: true
-    })
-    );
-
-    // Click to refresh the The HOME page
-    $("#reload").click(function(){
-        location.reload(true);
-    });
-
-//---------------------------- Movies API ---------------------------------------//
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
+});
 
 
     

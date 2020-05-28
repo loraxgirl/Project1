@@ -1,7 +1,6 @@
 body {
 	background-image:               url("../images/heart-background.jpg");
     font-family:                    'Nova Square', cursive;
-    background-repeat:              no-repeat;
     background-size:                cover;
 }
 
@@ -81,11 +80,15 @@ label {
     padding-bottom:                 10px; 
  }
 
-/*CSS style Home Page */
 
- #map { position: absolute;
-       top: 100; bottom: 0; left:30;
+/* CSS Style for Dinner Page */
+
+ #map { 
+        float:right ;
         width: 100%;
+        top: 100px;
+        right:20px;
+       
  }
 
  .geocoder {
@@ -116,8 +119,6 @@ label {
 
 
 
- /* CSS Style for Dinner Page */
-
  #answer{
     font-size: 16px;
 }
@@ -130,9 +131,11 @@ h5{
 
 .resultRow{
     text-align: center;
+    margin:auto;
     margin-bottom:10px;
     border: 5px solid rgb(230, 69, 96);
-    background-color:rgba(191, 188, 188, 0.399);
+    background-color: whitesmoke;
+    width: 900px;
     height: 250px;
 }
 
@@ -188,7 +191,7 @@ h5{
 */
 @media screen and (max-width: 991px){
     .resultRow{
-        
+       
         height: 400px;
     }
 
@@ -230,13 +233,144 @@ h5{
          }
 
 
-/* CSS style Find Movies Page */
 
-.tile {display: inline-block; 
-      border: 1px solid grey; 
-      background: silver; 
-      padding: 4px; 
-      text-align: center; 
-      font-size: 15px;
-      width:250px; 
+/* CSS Style for Stream Page */
+html {
+    scroll-behavior: smooth;
 }
+
+
+#containerMovies {
+    padding: 20px;
+    margin: 0 auto;
+    background-color: rgb(230, 69, 96);
+}
+
+.movie {
+    margin-top: 50px;
+}
+
+section {
+    position: relative;
+    width: 100%;
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    transition: 250ms all;
+}
+
+section .imageContainer {
+    flex: 0 0 auto;
+}
+
+.content {
+    display: none;
+    position: relative;
+    min-height: 200px;
+    width: 100%;
+    border: 1px solid lightgrey;
+    padding: 20px;
+   
+}
+
+
+.content-display {
+    display: block;
+}
+
+
+.content-display {
+    display: block;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: pink;
+}
+
+
+.content div {
+    margin: 10px;
+   
+}
+
+#content-close {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    padding: 10px;
+    /* width: 35px;; */
+    border: 1px solid lightgrey;
+    border-radius: 45%;
+    left: 20px;
+    color:black;
+    background-color: red;
+    
+
+}
+
+
+.imageContainer {
+    transition: 250ms all;
+    width: 300px;
+}
+
+
+.imageContainer:hover {
+    margin-left: 0 40px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.imageContainer {
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.imageContainer img {
+    width: 80%;
+}
+
+.btn {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    outline: none;
+    min-height: 38px;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 760px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+#linkOut{
+    background-color: red;
+}
+
+
+
+        

@@ -1,0 +1,24 @@
+https://www.guidebox.com/docs/key
+kristaclarke82@gmail.com
+testforclass20
+
+
+Your API Key
+This Production API Key has been generated just for you!
+11bc9cd932a53895405c231733daae5ac90fe516
+kristaclarke82@gmail.com
+About API Usage
+API Calls
+1,000
+ 
+Date Use
+Approved
+ 
+Frequency
+240 Requests Per 60 Seconds
+ 
+Local Storage
+Allowed
+Update Payment Details
+
+

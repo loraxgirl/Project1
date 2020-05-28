@@ -1,0 +1,211 @@
+YELP
+
+Client ID
+r97D6Z7Y2jc7TWX6tEXulA
+API Key
+VVvVOjZGwwjxwP4wq77qbiUkO8tOtAWv7M6f0WIIkbRNnYzcGYm9jpxdWa9sEHncnFvEIDaU6pl3CftfLcI8sw_6gwZAZfjM9I6kRmMTdKUtszphLRLoOW3oIqrEXnYx
+
+https://www.yelp.com/developers/documentation/v3/transaction_search
+
+TRANSACTIONS SEARCH
+/transactions/{transaction_type}/search
+This endpoint returns a list of businesses which support food delivery transactions.
+
+Note: at this time, the API does not return businesses without any reviews.
+
+Request
+GET https://api.yelp.com/v3/transactions/{transaction_type}/search
+Valid values for transaction_type are:
+
+delivery: food delivery.
+Note Currently, this endpoint only supports food delivery in the US.
+
+GET https://api.yelp.com/v3/transactions/delivery/search?location=
+
+Parameters
+These parameters should be in query string.
+
+Name	Type	Description
+location	string	Required when latitude and longitude aren't provided. Address of the location you want to deliver to.
+
+Response Body
+{
+  "total": 144,
+  "businesses": [
+    {
+      "id": "gR9DTbKCvezQlqvD7_FzPw",
+      "alias": "north-india-restaurant-san-francisco",
+      "price": "$$",
+      "url": "https://www.yelp.com/biz/north-india-restaurant-san-francisco",
+      "rating": 4,
+      "location": {
+        "zip_code": "94105",
+        "state": "CA",
+        "country": "US",
+        "city": "San Francisco",
+        "address2": "",
+        "address3": "",
+        "address1": "123 Second St"
+      },
+      "categories": [
+        {
+          "alias": "indpak",
+          "title": "Indian"
+        }
+      ],
+      "phone": "+14153481234",
+      "coordinates": {
+        "longitude": -122.399305736113,
+        "latitude": 37.787789124691
+      },
+      "image_url": "http://s3-media4.fl.yelpcdn.com/bphoto/howYvOKNPXU9A5KUahEXLA/o.jpg",
+      "is_closed": false,
+      "name": "North India Restaurant",
+      "review_count": 615,
+      "transactions": ["pickup", "restaurant_reservation"]
+    },
+    // ...
+  ]
+}
+Name	Type	Description
+total	int	The total number of business Yelp finds based on the search criteria. Sometimes, the value may exceed 1000. In such case, you still can only get up to 1000 businesses.
+businesses	object[]	A list of business Yelp finds based on the search criteria.
+businesses[x].id	string	Unique Yelp ID of this business. Example: '4kMBvIEWPxWkWKFN__8SxQ'
+businesses[x].alias	string	Unique Yelp alias of this business. Can contain unicode characters. Example: 'yelp-san-francisco'. Also see What's the difference between the Yelp business ID and business alias?
+businesses[x].name	string	Name of this business.
+businesses[x].image_url	string	URL of photo for this business.
+businesses[x].is_closed	bool	Whether business has been (permanently) closed
+businesses[x].url	string	URL for business page on Yelp.
+businesses[x].price	string	Price level of the business. Value is one of $, $$, $$$ and $$$$.
+businesses[x].phone	string	Phone number of the business.
+businesses[x].rating	decimal	Rating for this business (value ranges from 1, 1.5, ... 4.5, 5).
+businesses[x].review_count	int	Number of reviews for this business.
+businesses[x].categories	object[]	A list of category title and alias pairs associated with this business.
+businesses[x].categories[x].alias	string	Alias of a category, when searching for business in certain categories, use alias rather than the title.
+businesses[x].categories[x].title	string	Title of a category for display purpose.
+businesses[x].coordinates	object	The coordinates of this business.
+businesses[x].coordinates.latitude	decimal	The latitude of this business.
+businesses[x].coordinates.longitude	decimal	The longitude of this business.
+businesses[x].location	object	The location of this business, including address, city, state, zip code and country.
+businesses[x].location.address1	string	Street address of this business.
+businesses[x].location.address2	string	Street address of this business, continued.
+businesses[x].location.address3	string	Street address of this business, continued.
+businesses[x].location.city	string	City of this business.
+businesses[x].location.state	string	ISO 3166-2 (with a few exceptions) state code of this business.
+businesses[x].location.zip_code	string	Zip code of this business.
+businesses[x].location.country	string	ISO 3166-1 alpha-2 country code of this business.
+businesses[x].transactions	string[]	A list of Yelp transactions that the business is registered for. Current supported values are "pickup", "delivery", and "restaurant_reservation".
+
+
+
+
+
+CATEGORIES
+The following list shows all categories currently recognized for search filtering.
+The value in parenthesis should be used when specifying a search category input. This corresponds to the categories parameter for a Search endpoint search.
+The categories information, including parent categories and available countries, can also be downloaded as a json file.
+
+
+Desserts (desserts, All)
+Donuts (donuts, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TR, TW, US])
+Empanadas (empanadas, [US, AR, CL, ES])
+Food Delivery Services (fooddeliveryservices, All)
+
+Restaurants (restaurants, All)
+American (New) (newamerican, [IE, US, SE, NO, DK, GB])
+American (Traditional) (tradamerican, All)
+Asian Fusion (asianfusion, All)
+Barbeque (bbq, [AR, AT, BE, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TR, TW, US])
+Brazilian (brazilian, All)
+Burgers (burgers, All)
+Cajun/Creole (cajun, [AR, AT, BE, BR, CA, CH, CL, CZ, DE, DK, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, TR, TW, US])
+Caribbean (caribbean, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, ES, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, SG, TW, US])
+Cheesesteaks (cheesesteaks, [IE, US, PL, AU, CA, NL, GB])
+Chinese (chinese, All)
+Cantonese (cantonese, [CA, JP, FR, IT, GB, AR, MY, NL, US, SE, HK, BE, AU, SG, NZ, TW])
+Szechuan (szechuan, [MY, IE, JP, FR, GB, US, HK, AU, SG, NZ, TW])
+Comfort Food (comfortfood, [US, FI, MX, AR, CL, CA, JP])
+Cuban (cuban, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, TW, US])
+Fish & Chips (fishnchips, [AR, AT, AU, BE, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, SG, TR, TW, US])
+French (french, All)
+Gastropubs (gastropubs, All)
+German (german, All)
+Gluten-Free (gluten_free, All)
+Greek (greek, All)
+Halal (halal, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, SG, TW, US])
+Indian (indpak, All)
+Indonesian (indonesian, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, FI, FR, GB, HK, IE, IT, JP, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TR, TW, US])
+Israeli (israeli, [CZ, DE, CH, AT])
+Italian (italian, All)
+Japanese (japanese, All)
+Hand Rolls (handrolls, [BR, TW])
+Tempura (tempura, [SG, JP, TW])
+Udon (udon, [FI, TW, SE, HK, JP, NO, DK])
+Yakitori (yakitori, [SG, JP, TW])
+Kebab (kebab, All)
+Korean (korean, All)
+Latin American (latin, All)
+Mediterranean (mediterranean, All)
+Mexican (mexican, All)
+Tacos (tacos, [US, MX])
+Tamales (tamales, [MX])
+Middle Eastern (mideastern, [AR, AT, AU, BE, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TR, TW, US])
+Egyptian (egyptian, [US, BE, CA, FR, IT])
+Moroccan (moroccan, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TW, US])
+Noodles (noodles, [AR, AU, BE, BR, CA, CL, CZ, DK, ES, FI, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, PT, SE, SG, TR, TW, US])
+Persian/Iranian (persian, All)
+Peruvian (peruvian, [AR, AT, AU, BE, BR, CA, CH, CL, CZ, DE, DK, ES, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, TW, US])
+Pizza (pizza, All)
+Salad (salad, All)
+Sandwiches (sandwiches, All)
+Seafood (seafood, All)
+Soul Food (soulfood, [IE, PL, ES, CA, NO, NL, GB, US, SE])
+Southern (southern, [IE, PL, CA, NL, GB, US, TR, SE, NZ])
+Spanish (spanish, All)
+Steakhouses (steak, All)
+Tex-Mex (tex-mex, [AR, AT, BE, BR, CA, CH, CL, CZ, DE, FI, FR, GB, HK, IE, IT, JP, MX, MY, NL, NO, NZ, PH, PL, SE, SG, TR, TW, US])
+Thai (thai, All)
+Vegan (vegan, All)
+Vegetarian (vegetarian, All)
+Waffles (waffles, All)
+Wraps (wraps, [US, TR, SE, PT, CZ, NO, DK])
+
+
+
+/categories/{alias}
+This endpoint returns detailed information about the Yelp category specified by a Yelp category alias. The alias for each category can be found either by using the v3/categories endpoint, or the category list.
+
+Request
+GET https://api.yelp.com/v3/categories/{alias}
+Parameters
+These parameters, except for alias, should be in query string.
+
+Name	Type	Description
+locale	string	Optional. Specify the locale to return the event information in. See the list of supported locales.
+alias	string	Required. Specify the alias of the category.
+
+Response Body
+{
+	"category": {
+		"alias": "hotdogs",
+		"title": "Fast Food",
+		"parent_aliases": [
+			"restaurants"
+		],
+		"country_whitelist": [],
+		"country_blacklist": []
+	}
+}
+
+Name	Type	Description
+alias	string	Category alias.
+title	string	Title of this category.
+parent_aliases	string[]	List of aliases of parent categories.
+country_whitelist	string[]	Countries for which this category is whitelisted.
+country_blacklist	string[]	Countries for which this category is blacklisted.
+
+
+
+
+
+
