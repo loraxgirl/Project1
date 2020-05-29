@@ -1,5 +1,8 @@
 https://trakt.docs.apiary.io/#introduction/required-headers
 
+Client ID: 77c46c77cc7ace17e9de3d862298c25e63ede51eedcfd503582bc81b40c74132
+Client Secret: 68a8042262ed186b27eca0de60257101ca2e3b7eb027ed8aa11052d8d9d6758b
+
 
 Trakt API
 
@@ -9,7 +12,8 @@ More complex API calls (such as adding a movie or show to your collection) invol
 Stay Connected - API discussion and bugs should be posted in the GitHub Developer Forum and watch the repository if you'd like to get notifications. Make sure to follow our API Blog and @traktapi on Twitter too.
 API URL - The API should always be accessed over SSL.https://api.trakt.tv
 
-If you would like to use our sandbox environment to not fill production with test data, use this URL over SSL. Note: Staging is a completely separate environment, so you'll need to create a new API app on staging.https://api-staging.trakt.tv
+If you would like to use our sandbox environment to not fill production with test data, use this URL over SSL. Note: Staging is a completely separate environment, so you'll need to create a new API app on staging.
+https://api-staging.trakt.tv
 
 Verbs - The API uses restful verbs.
 Verb	Description
@@ -40,8 +44,8 @@ Code	Description
 522	Service Unavailable - Cloudflare errorRequired HeadersYou'll need to send some headers when making API calls to identify your application, set the version and set the content type to JSON.
 
 Header	Value
-Content-type *	application/json
-trakt-api-key *	Your client_id listed under your Trakt applications.
+Content-type *		application/json
+trakt-api-key *		Your client_id listed under your Trakt applications.
 trakt-api-version *	2All POST, PUT, and DELETE methods require a valid OAuth access_token. Some GET calls require OAuth and others will return user specific data if OAuth is sent. Methods that 🔒 require or have 🔓 optional OAuth will be indicated.Your OAuth library should take care of sending the auth headers for you, but for reference here's how the Bearer token should be sent.
 
 Header	Value

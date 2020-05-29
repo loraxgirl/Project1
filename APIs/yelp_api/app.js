@@ -1,9 +1,12 @@
 $(document).ready(function () {
     
-    var search = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location=los-angeles";
+
+    function buildQueryURL() {
+
+    var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=by-restaurant&location=los-angeles";
 
          $.ajax({
-            url: search ,
+            url: queryURL ,
             headers: {
              'Authorization':'Bearer VVvVOjZGwwjxwP4wq77qbiUkO8tOtAWv7M6f0WIIkbRNnYzcGYm9jpxdWa9sEHncnFvEIDaU6pl3CftfLcI8sw_6gwZAZfjM9I6kRmMTdKUtszphLRLoOW3oIqrEXnYx',
          },
@@ -13,12 +16,16 @@ $(document).ready(function () {
                 console.log('success: '+data);
                // Grab the results from the API JSON return
                var totalresults = data.total;
-          
+
+        
+               
                // If our results are greater than 0, continue
                if (totalresults > 0){
                    // Display a header on the page with the number of results
                    $('#results').append('<h5>We discovered ' + totalresults + ' results!</h5>');
                    // Itirate through the JSON array of 'businesses' which was returned by the API
+
+              
                    $.each(data.businesses, function(i, item) {
                   
                        // Store each business's object in a variable
@@ -51,7 +58,27 @@ $(document).ready(function () {
                    $('#results').append('<h5>We discovered no results!</h5>');
                }
            }
-        });      
+        });     
+        
+    };
+
+    
+    $("#search").on("click", function(event) {
+        event.preventDefault();
+        // This line grabs the input from the textbox
+        var info = $("#input-term").val().trim();
+
+        buildQueryURL(info);
+        // Calling renderButtons which handles the processing of our movie array
+        
+        
+      });
+
+
+
+
+//---------------------------
+    });
 
 
     
@@ -73,4 +100,4 @@ $(document).ready(function () {
 
 
 
-});
+
