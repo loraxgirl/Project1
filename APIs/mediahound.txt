@@ -1,5 +1,0 @@
-MEDIA HOUND
-
-Are there any branding requirements?
-We want your apps to look good — so our attribution requirements don’t include a specific badge or logo. We require partners to display “Powered by The Entertainment Graph” on every page or screen that includes our data in a readable font no smaller than 10 points or 13 pixels. This copy must link to https://developer.mediahound.com. Color and styling are up to you, as long as it remains legible to a reasonable person. For more details, read our Branding Guidelines.
-
