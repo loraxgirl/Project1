@@ -50,9 +50,13 @@ width:                              95%;
     border: 0.25px solid black;
 } */
 
+img {
+
+}
+
 label {
     color:                          darkred;
-    font-size:                      110%;
+    font-size:                      large;
     text-align:                     center;
 }
 
@@ -81,9 +85,5 @@ label {
 
 #yelpsearch {
     line-height:                    1.0; 
-    margin-top:                     0.25rem !important;
-}
-
-#search     {
-    margin-top:                     0.25rem !important;
+    margin-top: 0.25rem !important;
 }
