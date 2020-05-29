@@ -1,6 +1,7 @@
 $(document).ready(function(){
 // Dinner Page
     $("#search").on("click", function(event) {
+    $("#results").empty();
         event.preventDefault();
         // This line grabs the input from the textbox
         var location = $("#zipcode").val().trim();
@@ -47,7 +48,7 @@ $(document).ready(function(){
                        // Append our result into our page
                       
                      $('#results').append(
-                        '<tr><td><a href="https://www.yelp.com/biz/' + alias + '" target="new">' + name + '</a></b></td><td>(<b>' + rating + '</b> * ' + reviewcount + ' reviews)</td><td>' + address + ' ' + city + '  ' + state + ' ' + zipcode + '</td><td>' + phone + '</td></tr>');
+                        '<tr><td><a href="https://www.yelp.com/biz/' + alias + '" target="new">' + name + '</a></b></td><td>(<b>' + rating + '</b> <i class="fa fa-star"></i> ' + reviewcount + ' reviews)</td><td>' + address + ' ' + city + '  ' + state + ' ' + zipcode + '</td><td>' + phone + '</td></tr>');
                 
                     });
                } else {
