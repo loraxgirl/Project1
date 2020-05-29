@@ -1,0 +1,151 @@
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Project 1 || Date Night Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <!--Added link to Bootstrap -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- jQuery -->   
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <!-- Latest compiled & minified JavaScript -->  
+  <script src="" crossorigin="anonymous"></script>
+  <!-- Link to CSS -->  
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <!-- Link to Google Font -->  
+  <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+  <!-- Link to Google Font -->  
+  <link href="https://fonts.googleapis.com/css2?family=Nova+Square&display=swap" rel="stylesheet">
+   <!--Added link to awesome icon -->
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!---Link to Map -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css" rel="stylesheet" />
+
+<body>
+   
+<div class="wrapper">
+    <div class="jumbotron align-middle" style="border-radius: 18px;"><h1>Date Night Planner</h1></div>
+</div>
+
+    <div class="container">
+        <div class="row" id="navbar">
+            <div class="col-md-1"> </div>
+            <div class="col-md-10 align-middle">
+                <nav class="nav nav-pills nav-justified">
+                    <a class="nav-item nav-link active" id="active" href="#">DINNER</a>
+                    <a class="nav-item nav-link" id="link" href="index.html">HOME</a>
+                    <a class="nav-item nav-link" id="link" href="stream.html">FIND MOVIE</a>
+                  </nav>
+            </div>
+            <div class="col-md-1"> </div>
+        </div>
+     
+
+        <form id="inputForm">
+            <input type="text" id="input-term" class="form-control" placeholder="Enter : Address, City, States or Zipcode" style="background-color:rgba(191, 188, 188, 0.399);">
+            <select class="custom-select" id="selectType" aria-label="Select with button addon" style="background-color:rgba(191, 188, 188, 0.399);">
+              <option selected>Food Type</option>
+              <option value="asianfusion">Asian Fusion</option>
+                      <option value="bbq">BBQ</option>
+                      <option value="brazilian">Brazilian</option>
+                      <option value="burgers">Burgers</option>
+                      <option value="caribbean">Caribbean</option>
+                      <option value="cheesesteaks">Cheesesteaks</option>
+                      <option value="chinese">Chinese</option>
+                      <option value="cuban">Cuban</option>
+                      <option value="desserts">Desserts</option>
+                      <option value="empanadas">Empanadas</option>
+                      <option value="french">French</option>
+                      <option value="gluten_free">Gluten-Free</option>
+                      <option value="greek">Greek</option>
+                      <option value="halal">Halal</option>
+                      <option value="indian">Indian</option>
+                      <option value="italian">Italian</option>
+                      <option value="japanese">Japanese</option>
+                      <option value="kebab">Kebab</option>
+                      <option value="korean">Korean</option>
+                      <option value="latin">Latin American</option>
+                      <option value="mediterranean">Mediterranean</option>
+                      <option value="mexican">Mexican</option>
+                      <option value="mideastern">Middle Eastern</option>
+                      <option value="moroccan">Moroccan</option>
+                      <option value="peruvian">Peruvian</option>
+                      <option value="pizza">Pizza</option>
+                      <option value="salad">Salad</option>
+                      <option value="sandwiches">Sandwiches</option>
+                      <option value="seafood">Seafood</option>
+                      <option value="soulfood">Soul Food</option>
+                      <option value="Spanish">Spanish</option>
+                      <option value="steak">Steakhouses</option>
+                      <option value="tex-mex">Tex-Mex</option>
+                      <option value="thai">Thai</option>
+                      <option value="vegan">Vegan</option>
+                      <option value="vegetarian">Vegetarian</option>
+            </select>
+           </form>
+
+           <div class="iconDiv">
+           <button id="search" class="btn btn-outline-secondary" type="button">
+            <i class="fa fa-search" aria-hidden="true"></i>
+           </button>
+           <!-- Here we have our clear the page button -->
+           <button type="button" id="clear-all" class="btn btn-primary btn-lg">
+            <i class="fa fa-refresh" aria-hidden="true"></i></button>
+           </div>
+            
+            <!---->
+        
+            
+    </div>
+    
+</div>
+
+<!--   -->
+
+<div class="container-fluid" >   
+    <div id='map' style='width: 350px; height: 650px;'></div>
+<div class="card-body">
+  
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+   
+      <div id="results" class="card-body" ></div>
+      <!-------------Map----------------->
+
+      
+  </div>
+
+  <!---->
+  
+</div>
+</div> 
+
+
+
+<!---->
+    </div>
+
+
+<!-- Link to Map Direction -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+<link
+    rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+    type="text/css"
+/>
+<!-- Link to Map Geocoder -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+
+ <!-- Link to JS -->
+<script src="assets/javascript/app.js"></script>
+</body>
+</html>
