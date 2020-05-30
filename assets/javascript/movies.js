@@ -19,6 +19,10 @@ function createImageContainer(imageUrl, id) {
     return tempDiv;
 }
 
+$(function() {
+    $(".content:empty").hide();
+  });
+
 function resetInput() {
     searchInput.value = '';
 }
