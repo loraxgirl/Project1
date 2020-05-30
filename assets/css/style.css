@@ -21,7 +21,7 @@ h1 {
 }
 
 .wrapper {
-width:                              95%;
+width:                              90%;
 height:                             12%;
 text-align:                         center;
 margin:                             auto;
@@ -29,7 +29,9 @@ margin:                             auto;
 
 .container {
 background-color:                   white;
-width:                              95%;
+width:                              90%;
+margin:                             auto;
+border-radius:                      16px;
 }
 
 #active {
@@ -46,7 +48,8 @@ width:                              95%;
     color:                          gold;
 }
 
-/* div {
+/*
+ div {
     border: 0.25px solid black;
 } */
 
@@ -86,4 +89,167 @@ label {
 
 #search     {
     margin-top:                     0.25rem !important;
+}
+
+#results    {
+    font-size:                      95%;   
+}
+
+.footer {
+    background-color    : #666666;
+    color               : darkgoldenrod;
+    padding             : 2px;
+    text-align          : center;
+    font-size           : 14px;
+    width               : 100%;
+    margin              : auto;
+    position            : fixed;
+    bottom              : 0;
+    left                : 0;
+    border-top          : 3px solid darkred;
+    vertical-align      : bottom;
+    opacity: 0.5;
+  }
+  
+  .footer:hover {
+    opacity: 1.0;
+  }
+
+/* STREAMING PAGE SPECIFIC CSS */
+/* #pic{
+  float: left;
+    padding:10px;
+    width:200px;
+    height:200px;  
+} */
+
+#moviesearch {
+    line-height:                    1.0; 
+    margin-top:                     0.25rem !important;
+}
+
+#sub_buttons    {
+    float:                          left;
+    padding-right: 4px;
+}
+
+#movietitle {
+    size:                           100%;
+}
+
+.movie {
+    margin-top: 2px;
+}
+
+section {
+/*    position: relative; */
+/*    width: 100%; */
+/*    margin-top: 10px; */
+    align-items: center;
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 4px;
+/*    overflow: auto; */
+    transition: 250ms all;
+}
+
+.imageContainer {
+/*    flex: 0 0 auto; */
+    margin: auto;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    transition: 250ms all;
+    width: 215px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.imageContainer:hover {
+    margin-left: 0 40px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.imageContainer img {
+    width: 100%;
+}
+
+.content {
+/*    display: none; */
+    position: relative;
+    min-height: 200px;
+    width: 100%;
+    border: 1px solid lightgrey;
+    padding: 10px;   
+}
+
+.content-display {
+/*    display: block; */
+/*     display: flex; */
+/*    justify-content: space-around; */
+/*    flex-wrap: wrap; */
+/*    align-items: center; */
+/*    background-color: pink; */
+}
+
+/*you tube box*/
+.content div {
+    margin: 10px;    
+}
+
+#content-close {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    padding: 10px;
+    /* width: 35px;; */
+    border: 1px solid lightgrey;
+    border-radius: 45%;
+/*    left: 20px; */
+    color:black;
+    background-color: red;
+}
+
+/*
+#searchMovies {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    outline: none;
+    min-height: 38px;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+} */
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    width: 100%;
+/*    padding: .375rem .75rem; */
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    outline: none;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+
+#linkOut{
+    margin:50px;
+    color:white;
+}
+
+.movieReview{  
+    float: left;  
 }

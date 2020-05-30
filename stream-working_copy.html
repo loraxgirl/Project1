@@ -33,13 +33,13 @@
     <form id="form" class="form-inline">
       <div class="col pr-1 pl-0" id="moviesearch"><label for="user-input">Find Your<br>Movie</label></div>
       <div class="col pr-3">
-        <input type="text" class="form-control" id="movietitle" placeholder="Search by Movie Title" size="60%" required>
+        <input type="text" class="form-control" id="movietitle" aria-describedby="emailHelp" placeholder="Search by Movie Title" size="60%" required>
       </div>
       <div class="col px-0 align-left float-left" id="sub_buttons">
         <input type="button" value="Submit" class="btn btn-default" id="searchMovies">
         <!-- Here we have our clear the page button -->
-        <input type="button" value="Random" id="clear-all" class="btn btn-default">
-        </input>
+        <button type="button" id="clear-all" class="btn btn-primary btn-lg">
+        <i class="fa fa-refresh" aria-hidden="true"></i></button>
       </div>
     </form>
   </div>
