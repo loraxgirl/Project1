@@ -210,10 +210,10 @@ section {
     padding:                        10px;   
 }
 
-.content:empty, .content:blank {
+/*.content:empty, .content:blank {
         display: none;
         visibility: hidden;
-    }
+    } */
 
 .content-display {
 /*    display: block; */
