@@ -21,17 +21,17 @@ h1 {
 }
 
 .wrapper {
-width:                              90%;
-height:                             12%;
-text-align:                         center;
-margin:                             auto;
+    width:                          90%;
+    height:                         12%;
+    text-align:                     center;
+    margin:                         auto;
 }
 
 .container {
-background-color:                   white;
-width:                              90%;
-margin:                             auto;
-border-radius:                      16px;
+    background-color:               white;
+    width:                          90%;
+    margin:                         auto;
+    border-radius:                  16px;
 }
 
 #active {
@@ -82,47 +82,61 @@ label {
     padding-bottom:                 10px; 
  }
 
+.footer {
+    background-color:               #666666;
+    color:                          darkgoldenrod;
+    padding:                        2px;
+    text-align:                     center;
+    font-size:                      14px;
+    width:                          100%;
+    margin:                         auto;
+    position:                       fixed;
+    bottom:                         0;
+    left:                           0;
+    border-top:                     3px solid darkred;
+    vertical-align:                 bottom;
+    opacity:                        0.5;
+  }
+  
+.footer:hover {
+    opacity:                        1.0;
+  }
+
+
+/* DINNER PAGE SPECIFIC CSS */
+#pic{
+    float:                          left;
+    padding:                        2px;
+    padding-right:                  10px;
+    width:                          160px;
+    height:                         160px;  
+    border-radius:                  18px;
+}
+
+#search     {
+    margin-top:                     0.25rem !important;
+    width:                          80%;
+}
+
 #yelpsearch {
     line-height:                    1.0; 
     margin-top:                     0.25rem !important;
 }
 
-#search     {
-    margin-top:                     0.25rem !important;
+#zipcode {
+    width:                          200px; 
 }
 
 #results    {
-    font-size:                      95%;   
+    font-size:                      95%;
+    vertical-align:                 middle;   
 }
 
-.footer {
-    background-color    : #666666;
-    color               : darkgoldenrod;
-    padding             : 2px;
-    text-align          : center;
-    font-size           : 14px;
-    width               : 100%;
-    margin              : auto;
-    position            : fixed;
-    bottom              : 0;
-    left                : 0;
-    border-top          : 3px solid darkred;
-    vertical-align      : bottom;
-    opacity: 0.5;
-  }
-  
-  .footer:hover {
-    opacity: 1.0;
-  }
+#selectType {
+    width:                          200px; 
+}
 
 /* STREAMING PAGE SPECIFIC CSS */
-/* #pic{
-  float: left;
-    padding:10px;
-    width:200px;
-    height:200px;  
-} */
-
 #moviesearch {
     line-height:                    1.0; 
     margin-top:                     0.25rem !important;
@@ -130,7 +144,7 @@ label {
 
 #sub_buttons    {
     float:                          left;
-    padding-right: 4px;
+    padding-right:                  4px;
 }
 
 #movietitle {
@@ -138,20 +152,16 @@ label {
 }
 
 .movie {
-    margin-top: 2px;
+    margin-top:                     2px;
 }
 
 section {
-/*    position: relative; */
-/*    width: 100%; */
-/*    margin-top: 10px; */
-    align-items: center;
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 4px;
-/*    overflow: auto; */
-    transition: 250ms all;
+    align-items:                    center;
+    display:                        flex; 
+    flex-wrap:                      wrap;
+    justify-content:                center;
+    padding:                        4px;
+    transition:                     250ms all;
 }
 
 .imageContainer {
@@ -252,4 +262,44 @@ section {
 
 .movieReview{  
     float: left;  
+}
+
+
+/* Mobile devices (phones, 750px and smaller) */
+@media screen and (max-width: 750px) {
+
+    label {
+        font-size:                      102%;
+        text-align:                     center;
+    }
+
+    #yelpsearch {
+        line-height:                    1.0; 
+        margin-top:                     0.25rem !important;
+        padding:                        0;
+    }
+        
+    #selectType {
+        padding:                        0;
+        width:                          100px; 
+    }
+
+    #zipcode {
+        padding:                        6px;
+        width:                          100px; 
+    }
+
+    #results    {
+        font-size:                      92%;
+        vertical-align:                 middle;
+    }
+
+    #pic{
+        display:                          none;
+    }
+
+
+
+
+
 }
