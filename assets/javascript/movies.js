@@ -81,9 +81,10 @@ function createReviewTemplate(data){
 
 
 function createVideoTemplate(data) {
+    console.log("inside createVideoTemplate function");
     const content = this.content;
 //    content.innerHTML = '<p id="content-close"></p><button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href="https://www.themoviedb.org/movie/?language=en-US" style="font-size:30px;" target="new"><h4>Click Here To Find Streaming Options</h4></a></button>';
-    content.innerHTML = '<button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href="https://www.themoviedb.org/movie/?language=en-US" style="font-size:30px;" target="new"><h4>Click Here To Find Streaming Options</h4></a></button>';
+    content.innerHTML = '<button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href="https://www.themoviedb.org/movie/' + data.id + '?language=en-US" style="font-size:30px;" target="new"><h4>Click Here To Find Streaming Options</h4></a></button>';
 
     const videos = data.results || [];
 
@@ -98,13 +99,11 @@ function createVideoTemplate(data) {
     }
 }
 
-
 function createSectionHeader(title) {
     const header = document.createElement('h2');
     header.innerHTML = title;
     return header;
 }
-
 
 function renderMovies(data) {
     const moviesBlock = generateMoviesBlock(data);
@@ -163,8 +162,6 @@ movieTitle.onclick = function (event) {
     resetInput();
 }
 
-
-
 // Click on any movies
 // Event Delegation
 document.onclick = function (event) {
@@ -172,27 +169,18 @@ document.onclick = function (event) {
     log('Event: ', event);
     const { tagName, id } = event.target;
     if (tagName.toLowerCase() === 'img') {
-      
         const movieId = event.target.dataset.movieId;
         const section = event.target.parentElement.parentElement;
         const content = section.nextElementSibling;
         content.classList.add('content-display');
-       console.log(movieId);
         getVideosByMovieId(movieId, content);
-   
     }
-
 
     if (id === 'content-close') {
         const content = event.target.parentElement;
         content.classList.remove('content-display');
     }
 }
-
-
-
-
-
 
 // Initial Values
 const MOVIE_DB_API = 'a4b437085eed3fcd667466edf8751b37';
@@ -213,41 +201,11 @@ function generateMovieDBUrl(path) {
 }
 
 /*
-function getTopRatedMovies() {
-    const url = generateMovieDBUrl(`/movie/top_rated`);
-    const render = renderMovies.bind({ title: 'Top Rated Movies' })
-    requestMovies(url, render, handleGeneralError);
-} */
-
-/*
-function getTrendingMovies() {
-    const url = generateMovieDBUrl('/trending/movie/day');
-    const render = renderMovies.bind({ title: 'Trending Movies' })
-    requestMovies(url, render, handleGeneralError);
-} */
-
-/*
-function getNowPlayingMovies() {
-    const url = generateMovieDBUrl('/movie/now_playing');
-    const render = renderMovies.bind({ title: 'Now Playing' })
-    requestMovies(url, render, handleGeneralError);
-} */
-
-/*
-function searchUpcomingMovies() {
-    const url = generateMovieDBUrl('/movie/upcoming');
-    const render = renderMovies.bind({ title: 'Upcoming Movies' })
-    requestMovies(url, render, handleGeneralError);
-} */
-
-/*
 function searchPopularMovie() {
     const url = generateMovieDBUrl('/movie/popular');
     const render = renderMovies.bind({ title: 'Popular Movies' });
     requestMovies(url, render, handleGeneralError);
 } */
-
-
 
 // Invoke a different function for search movies
 function searchMovie(value) {
@@ -255,19 +213,14 @@ function searchMovie(value) {
     requestMovies(url, renderSearchMovies, handleGeneralError);
 }
 
-
 function getVideosByMovieId(movieId, content) {
     const url = generateMovieDBUrl(`/movie/${movieId}/videos`);
-    const render = createVideoTemplate.bind({ content });
-    requestMovies(url, render, handleGeneralError);
+    var afterReceiving = function(resp){
+        console.log(resp);
+        const render = createVideoTemplate.bind({ content })(resp);
+    }
+requestMovies(url, afterReceiving, handleGeneralError);
 }
-
-function getReviewsByMovieId(movieId, content) {
-    const url = generateMovieDBUrl(`/movie/${movieId}/reviews`);
-    const render = createReviewTemplate.bind({ content });
-    requestMovies(url, render, handleGeneralError);
-}
-
 
 //  .on("click") function associated with the clear button
 $("#clear-all").on("click", function(){
@@ -279,11 +232,9 @@ $("#clear-all").on("click", function(){
 
 // Initialize the search
 searchMovie(INITIAL_SEARCH_VALUE);
-/*searchUpcomingMovies();
-getTopRatedMovies();
+/*
 searchPopularMovie();
-getTrendingMovies();
-getNowPlayingMovies(); */
+*/
 
 
 

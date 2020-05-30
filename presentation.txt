@@ -6,3 +6,23 @@ What steps did you take to build the app.
 Show the app running and solving the problem that began your story. Also talk about what features you'd like to add in an update to your app.
 Also something else to possibly talk about is what technical issues you ran into and how you went about to overcome them.
 
+
+
+
+
+$('#results').append(
+                        '<tr><td><a href="https://www.yelp.com/biz/' + alias + '" target="new">' + name + '</a></b></td><td>(<b>' + rating + '</b><i class="fa fa-star"></i> ' + reviewcount + ' reviews)</td><td>' + address + ' ' + city + '  ' + state + ' ' + zipcode + '</td><td>' + phone + '</td></tr>');
+
+
+
+First, my part was to make the dinner/food delivery search page work.
+After a lot of searching, I narrowed it down to 2 APIs, then compared which one has more documentation and the largest database to pull from.
+We decided to go with the Yelp API and I requested a key and got started on it.
+The first, and biggest issue was being unable to retrieve data from the API using jQuery.ajax().
+When I tested my code, I found out my URL was being blocked by a CORS Policy. The instructions in the documentation really did not help. While they provide a lot of information, they don't make it easy for newer coders to understand or implement.
+Finally, I found a solution on stack overflow . By appending the CORS-anywhere API to my query, I was able to hit my endpoint.
+I learned that CORS is usually enabled on the server-side. It’s a way to prevent unauthorized domains from connecting to APIs and getting data outside of the allowed scope.
+Cors-Anywhere is an open-sourced API you can implement on your own server, or use it through the heroku URL.
+The Cors-Anywhere developer created the API because he built many projects that required bypassing CORS.
+What we didn't get resolved, and would look to add in the future, is more specific cuisine filtering and searching.  The Yelp API lets you pull the data, but makes it difficult to filter as part of the pull.
+
