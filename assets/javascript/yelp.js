@@ -6,9 +6,8 @@ $(document).ready(function(){
         // This line grabs the input from the textbox
         var location = $("#zipcode").val().trim();
         var categories =$("#selectType").val().trim();
-       
   
-    var queryURL = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/transactions/delivery/search?location="+location+"&categories="+categories;
+    var queryURL = `https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/transactions/delivery/search?location=${location}&categories=${categories}&limit=50`;
   
 
          $.ajax({
@@ -28,9 +27,9 @@ $(document).ready(function(){
                // If our results are greater than 0, continue
                if (totalresults > 0){
                    // Display a header on the page with the number of results
-                   $('#results').append('<p>We discovered ' + totalresults + ' results!</p>');
-                   // Itirate through the JSON array of 'businesses' which was returned by the API
-
+                   $('#results').append('<p>We found ' + totalresults + ' results!</p>');
+                   // Iterate through the JSON array of 'businesses' which was returned by the API
+                console.log(data);
               
                    $.each(data.businesses, function(i, item) {
                   
@@ -45,11 +44,13 @@ $(document).ready(function(){
                        var city = item.location.city;
                        var state = item.location.state;
                        var zipcode = item.location.zip_code;
+                       var type = item.categories.alias;
+                       
                        // Append our result into our page
-                      
                      $('#results').append(
-                        '<tr><td><a href="https://www.yelp.com/biz/' + alias + '" target="new">' + name + '</a></b></td><td>(<b>' + rating + '</b> <i class="fa fa-star"></i> ' + reviewcount + ' reviews)</td><td>' + address + ' ' + city + '  ' + state + ' ' + zipcode + '</td><td>' + phone + '</td></tr>');
-                
+                        '<tr><td><a href="https://www.yelp.com/biz/' + alias + '" target="new">' + name + '</a></b></td><td>(<b>' + rating + '</b><i class="fa fa-star"></i> ' + reviewcount + ' reviews)</td><td>' + address + ' ' + city + '  ' + state + ' ' + zipcode + '</td><td>' + phone + '</td></tr>');
+                console.log(name, type);
+
                     });
                } else {
                    // If our results are 0; no businesses were returned by the JSON therefor we display on the page no results were found
