@@ -78,15 +78,13 @@ function createReviewTemplate(data){
 
 function createVideoTemplate(data) {
     const content = this.content;
-    content.innerHTML = '<p id="content-close">X</p><button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href = "https://www.themoviedb.org/movie/?language=en-US" style="font-size:30px;" target="new"><h4>Click to Find Out More Where to Watch</h4></a></button>';
-   
+//    content.innerHTML = '<p id="content-close"></p><button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href="https://www.themoviedb.org/movie/?language=en-US" style="font-size:30px;" target="new"><h4>Click Here To Find Streaming Options</h4></a></button>';
+    content.innerHTML = '<button type="button" id="reviewContent" class="btn btn-primary btn-lg"><a id="linkOut" href="https://www.themoviedb.org/movie/?language=en-US" style="font-size:30px;" target="new"><h4>Click Here To Find Streaming Options</h4></a></button>';
+
     const videos = data.results || [];
 
     if (videos.length === 0) {
-        content.innerHTML = `
-            <p id="content-close">X</p>
-            <p>No Trailer found for this video id of ${data.id}</p>
-        `;
+        content.innerHTML = `<p>No Trailer found for this video id of ${data.id}</p>`;
         return;
     }
 
@@ -143,9 +141,7 @@ function createMovieContainer(section) {
     movieElement.setAttribute('class', 'movie');
 
     const template = `
-        <div class="content">
-            <p id="content-close">X</p>
-        </div>`  ;
+        <div class="content"></div>`;
 
     movieElement.innerHTML = template;
     movieElement.insertBefore(section, movieElement.firstChild);
