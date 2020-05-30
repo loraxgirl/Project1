@@ -160,38 +160,39 @@ section {
     display:                        flex; 
     flex-wrap:                      wrap;
     justify-content:                center;
-    padding:                        4px;
+    padding-top:                    4px;
     transition:                     250ms all;
 }
 
 .imageContainer {
 /*    flex: 0 0 auto; */
-    margin: auto;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    transition: 250ms all;
-    width: 215px;
-    border-radius: 4px;
-    cursor: pointer;
+    margin:                         auto;
+    padding-top:                    4px;
+    padding-bottom:                 4px;
+    transition:                     250ms all;
+    width:                          215px;
+    border-radius:                  4px;
+    cursor:                         pointer;
 }
 
 .imageContainer:hover {
-    margin-left: 0 40px;
-    transform: scale(1.2);
-    cursor: pointer;
+    margin-left:                    0 40px;
+    transform:                      scale(1.2);
+    cursor:                         pointer;
 }
 
 .imageContainer img {
-    width: 100%;
+    width:                          100%;
+    border:                         1px solid lightgrey;
 }
 
 .content {
 /*    display: none; */
-    position: relative;
-    min-height: 200px;
-    width: 100%;
-    border: 1px solid lightgrey;
-    padding: 10px;   
+    position:                       relative;
+    min-height:                     200px;
+    width:                          100%;
+    border:                         1px solid lightgrey;
+    padding:                        10px;   
 }
 
 .content-display {
@@ -205,20 +206,35 @@ section {
 
 /*you tube box*/
 .content div {
-    margin: 10px;    
+    margin:                         10px;    
 }
 
 #content-close {
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    padding: 10px;
-    /* width: 35px;; */
-    border: 1px solid lightgrey;
-    border-radius: 45%;
+    cursor:                         pointer;
+    position:                       absolute;
+    top:                            20px;
+    padding:                        10px;
+    border:                         1px solid lightgrey;
+    border-radius:                  45%;
+    color:                         black;
+/*    background-color: red; */
+/*    width: 35px;; */
 /*    left: 20px; */
-    color:black;
-    background-color: red;
+}
+
+#reviewContent  {
+    color:                          darkred;
+    background-color:               #495057;
+    }
+    
+#reviewContent:hover {
+    background-color:               darkred;
+    color:                          darkgoldenrod;
+}
+
+#linkOut{
+    margin:                         30px;
+    color:                          darkgoldenrod;
 }
 
 /*
@@ -238,30 +254,25 @@ section {
 } */
 
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom:                  1rem;
 }
 
 .form-control {
-    width: 100%;
+    width:                          100%;
+    font-size:                      1rem;
+    font-weight:                    400;
+    line-height:                    1.5;
+    outline:                        none;
+    color:                          #495057;
+    background-color:               #fff;
+    background-clip:                padding-box;
+    border:                         1px solid #ced4da;
+    border-radius:                  .25rem;
 /*    padding: .375rem .75rem; */
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    outline: none;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-}
-
-#linkOut{
-    margin:50px;
-    color:white;
 }
 
 .movieReview{  
-    float: left;  
+    float:                          left;  
 }
 
 
@@ -298,8 +309,36 @@ section {
         display:                          none;
     }
 
+    #moviesearch {
+        line-height:                    1.0; 
+        margin-top:                     0.25rem !important;
+        padding:                        0px;
+    }
+    
+    #searchMovies {
+        margin:                         0px;
+        padding:                        0px;
+        width:                          68px;
+        height:                         36px; 
+    }
 
+    #clear-all {
+        margin:                         0px;
+        padding:                        0px;
+        width:                          70px;
+        height:                         36px; 
+    }
 
-
+    #sub_buttons    {
+        float:                          left;
+        padding-right:                  0px;
+    }
+    
+    #movietitle {
+        margin:                         0px;
+        padding:                        0px;
+        size:                           46%;
+        height:                         36px; 
+    }
 
 }
